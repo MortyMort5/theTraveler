@@ -43,7 +43,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     //==============================================================
     @IBAction func travelLogButtonTapped(_ sender: Any) {
         if (currentUser != nil) {
-            let travelLogController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TravelLogTableViewController")
+            let travelLogController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TravelLogViewController")
             self.present(travelLogController, animated: true, completion: nil)
         } else {
             let loginController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
@@ -104,16 +104,27 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         CrimeRateController.shared.fetchCrimeData(byCurrentLocation: "\(city), \(state)", completion: { (crimeRates) in
             if crimeRates.count == 0 {
                 print("Nothing was fetched by that city and state")
+                return 
             }
-            self.percentLabel?.text = "\(crimeRates[0].warningPercent)%"
+            DispatchQueue.main.async {
+                self.percentLabel?.text = "\(crimeRates[0].warningPercent)%"
+            }
+            
             if (self.currentUser != nil)  {
                 guard let user = self.currentUser else { return }
                 if user.warningPercent! >= crimeRates[0].warningPercent {
-                    NotificationCenter.default.addObserver(self, selector: #selector(self.viewDidLoad), name: CrimeRateController.shared.crimeIsAboveSetPercent, object: nil)
+                    self.saveCrimeRatesToCloudKit(crime: crimeRates)
+                    NotificationCenter.default.addObserver(self, selector:#selector(self.viewDidLoad), name: CrimeRateController.shared.crimeIsAboveSetPercent, object: nil)
                     print("Hit notification Observer")
                 }
             }
         })
+    }
+    
+    func saveCrimeRatesToCloudKit(crime: [CrimeRate]) {
+        CrimeRateController.shared.saveCrimeData(crimeRates: crime) { 
+            print("Saved crimeRates to cloudKit")
+        }
     }
 }
 

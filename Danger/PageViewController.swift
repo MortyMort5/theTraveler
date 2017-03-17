@@ -14,16 +14,20 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         super.viewDidLoad()
         dataSource = self
         self.delegate = self
+        verifyUser()
         configurePageControl()
-        
-        if orderedViewControllers.count > 1 {
-            setViewControllers([orderedViewControllers[1]], direction: .forward, animated: true, completion: nil)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
         currentUser = UserController.shared.loggedInUser
+        if currentUser != nil {
+            verifyUser()
+            self.dataSource = nil
+            self.dataSource = self
+            self.delegate = self
+            self.configurePageControl()
+        }
     }
     
     //==============================================================
@@ -31,30 +35,59 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     //==============================================================
     var pageControl = UIPageControl()
     var currentUser: User?
+    private(set) lazy var orderedViewControllers: [UIViewController] = []
     
     //==============================================================
     // MARK: - The array of viewControllers
     //==============================================================
-    private(set) lazy var orderedViewControllers: [UIViewController] = {
-        return [self.newViewController(view: "UserSetting"), self.newViewController(view: "Main"), self.newViewController(view: "Detail")]
-    }()
-    
     private func newViewController(view: String) -> UIViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "\(view)ViewController")
+    }
+    
+    //==============================================================
+    // MARK: - Verifying User and displaying Setting View Controller
+    //==============================================================
+    func verifyUser() {
+        orderedViewControllers = {
+            if self.currentUser != nil {
+                return [self.newViewController(view: "UserSetting"), self.newViewController(view: "Main"), self.newViewController(view: "Detail")]
+            } else {
+                return [self.newViewController(view: "Main"), self.newViewController(view: "Detail")]
+            }
+        }()
+        
+        if orderedViewControllers.count == 2 {
+            setViewControllers([orderedViewControllers[0]], direction: .forward, animated: true, completion: nil)
+        } else if orderedViewControllers.count == 3 {
+            setViewControllers([orderedViewControllers[1]], direction: .forward, animated: true, completion: nil)
+        }
     }
     
     //==============================================================
     // MARK: - This sets up the dots at the bottom
     //==============================================================
     func configurePageControl() {
-        // The total number of pages that are available is based on how many available colors we have.
-        pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
-        self.pageControl.numberOfPages = orderedViewControllers.count
-        self.pageControl.currentPage = 1
-        self.pageControl.tintColor = UIColor.black
-        self.pageControl.pageIndicatorTintColor = UIColor.white
-        self.pageControl.currentPageIndicatorTintColor = UIColor(red: 238.0/255, green: 133.0/255, blue: 113, alpha: 1.0)
-        self.view.addSubview(pageControl)
+        if currentUser != nil {
+            if let viewWithTag = pageControl.viewWithTag(100) {
+                viewWithTag.removeFromSuperview()
+            }
+            pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
+            self.pageControl.numberOfPages = orderedViewControllers.count
+            self.pageControl.currentPage = 1
+            self.pageControl.tintColor = UIColor.black
+            self.pageControl.pageIndicatorTintColor = UIColor.white
+            self.pageControl.currentPageIndicatorTintColor = UIColor(red: 238.0/255, green: 133.0/255, blue: 113.0/255, alpha: 1.0)
+            self.view.addSubview(pageControl)
+        } else {
+            pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
+            self.pageControl.numberOfPages = orderedViewControllers.count
+            self.pageControl.currentPage = 0
+            self.pageControl.tintColor = UIColor.black
+            self.pageControl.pageIndicatorTintColor = UIColor.white
+            self.pageControl.currentPageIndicatorTintColor = UIColor(red: 238.0/255, green: 133.0/255, blue: 113.0/255, alpha: 1.0)
+            self.pageControl.tag = 100
+            self.view.addSubview(pageControl)
+        }
     }
     
     //==============================================================
@@ -85,7 +118,6 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         }
         
         return orderedViewControllers[previousIndex]
-        
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -105,7 +137,5 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         }
         
         return orderedViewControllers[nextIndex]
-        
     }
-
 }

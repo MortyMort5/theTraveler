@@ -16,8 +16,9 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
         userStatesTableView.dataSource = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.viewDidLoad()
         currentUser = UserController.shared.loggedInUser
     }
     
@@ -47,14 +48,28 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     // MARK: - Data Source FUNCTIONS
     //==============================================================
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (currentUser?.states.count)!
+        guard let stateCount = currentUser?.states.count else { return 0 }
+        return stateCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-        let states = currentUser?.states[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "userStateCell", for: indexPath)
+        guard let states = currentUser?.states[indexPath.row] else { return cell }
         cell.textLabel?.text = states
         
         return cell
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

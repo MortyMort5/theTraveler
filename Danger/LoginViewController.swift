@@ -27,7 +27,6 @@ class LoginViewController: UIViewController {
             self.cancelButton.isEnabled = true
             self.submitButton.isEnabled = true
             self.dismiss(animated: true, completion: nil)
-            
         }
     }
     

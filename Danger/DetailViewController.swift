@@ -14,11 +14,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         crimeStatsTableView.delegate = self
         crimeStatsTableView.dataSource = self
+        verifyUserButton.setTitle("", for: .normal)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        verifyUserButton.setTitle("", for: .normal)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewDidLoad()
         currentUser = UserController.shared.loggedInUser
         verifyUser()
     }
@@ -66,8 +67,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         let crimeRate = CrimeRateController.shared.crimeRates[indexPath.row]
         
-        
-        cell.textLabel?.text = "\(crimeRate.type)  :  \(crimeRate.count)"
+        cell.textLabel?.text = crimeRate.type
+        cell.detailTextLabel?.text = crimeRate.count
         return cell
     }
     

@@ -22,9 +22,7 @@ class CrimeRate {
     let count: String
     let name: String
     var userReference: CKReference?
-    
     var cloudKitRecordID: CKRecordID?
-    
     var warningPercent: Int {
         return CrimeRateController.shared.warningPercentAlgarythm()
     }

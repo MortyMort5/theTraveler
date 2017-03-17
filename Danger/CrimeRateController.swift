@@ -55,21 +55,22 @@ class CrimeRateController {
     //==============================================================
     func warningPercentAlgarythm() -> Int {
         var percent = 0.0
-        for crime in crimeRates {
-            var total = 0.0
-            var temp = 0.0
-            guard let rate = Double(crime.rate) else { return 0 }
-            total += rate
-            temp = total * 100000.0
-            percent = round(temp)
+        var total = 0.0
+        var temp = 0.0
+        let ratesAsString = crimeRates.flatMap({ $0.rate })
+        let rates = ratesAsString.flatMap({ Double($0) })
+        for rate in rates {
+            total += rate * 10000.0
         }
+        temp = total / 11
+        percent = round(temp)
         return Int(percent)
     }
     
     //==============================================================
     // MARK: - CloudKit Functions
     //==============================================================
-    func saveCrimeData(completion: @escaping() -> Void) {
+    func saveCrimeData(crimeRates: [CrimeRate],completion: @escaping() -> Void) {
         let records = crimeRates.flatMap({ CKRecord(crimeRate: $0) })
         let modifyOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         modifyOperation.completionBlock = {

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		81A85CDE1E79A5F6005C5F47 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A85CDD1E79A5F6005C5F47 /* CloudKitManager.swift */; };
 		81AFAB2D1E7AEC5C0006A812 /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFAB2C1E7AEC5C0006A812 /* UserSettingViewController.swift */; };
+		81AFAB311E7B30DA0006A812 /* Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFAB301E7B30DA0006A812 /* Help.swift */; };
+		81B074AD1E7C4F8900AE3510 /* TravelLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */; };
 		81B3DE451E770ECD00B8CED3 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B3DE441E770ECD00B8CED3 /* DetailViewController.swift */; };
 		81CC06ED1E71015D00B8AE1D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CC06EC1E71015D00B8AE1D /* AppDelegate.swift */; };
 		81CC06F21E71015D00B8AE1D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81CC06F01E71015D00B8AE1D /* Main.storyboard */; };
@@ -20,7 +22,6 @@
 		81EAE6BB1E7769C200BD6B79 /* CrimeRateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAE6BA1E7769C200BD6B79 /* CrimeRateController.swift */; };
 		81EAE6BE1E7779CF00BD6B79 /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAE6BD1E7779CF00BD6B79 /* NetworkController.swift */; };
 		81EAE6C41E7865A700BD6B79 /* States.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAE6C31E7865A700BD6B79 /* States.swift */; };
-		81EAE6C61E78834300BD6B79 /* TravelLogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAE6C51E78834300BD6B79 /* TravelLogTableViewController.swift */; };
 		81EAE6C81E78890E00BD6B79 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAE6C71E78890E00BD6B79 /* LoginViewController.swift */; };
 		81EAE6CA1E788A6B00BD6B79 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAE6C91E788A6B00BD6B79 /* User.swift */; };
 		81EAE6CC1E788E8F00BD6B79 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAE6CB1E788E8F00BD6B79 /* UserController.swift */; };
@@ -30,6 +31,8 @@
 /* Begin PBXFileReference section */
 		81A85CDD1E79A5F6005C5F47 /* CloudKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		81AFAB2C1E7AEC5C0006A812 /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
+		81AFAB301E7B30DA0006A812 /* Help.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Help.swift; sourceTree = "<group>"; };
+		81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelLogViewController.swift; sourceTree = "<group>"; };
 		81B3DE441E770ECD00B8CED3 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		81CC06E91E71015D00B8AE1D /* Danger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Danger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81CC06EC1E71015D00B8AE1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,7 +46,6 @@
 		81EAE6BA1E7769C200BD6B79 /* CrimeRateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeRateController.swift; sourceTree = "<group>"; };
 		81EAE6BD1E7779CF00BD6B79 /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 		81EAE6C31E7865A700BD6B79 /* States.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = States.swift; sourceTree = "<group>"; };
-		81EAE6C51E78834300BD6B79 /* TravelLogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelLogTableViewController.swift; sourceTree = "<group>"; };
 		81EAE6C71E78890E00BD6B79 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		81EAE6C91E788A6B00BD6B79 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		81EAE6CB1E788E8F00BD6B79 /* UserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
@@ -94,12 +96,12 @@
 				81EAE6CD1E78A2B500BD6B79 /* Danger.entitlements */,
 				81CC06EC1E71015D00B8AE1D /* AppDelegate.swift */,
 				81CC07011E71016D00B8AE1D /* Stroyboards */,
-				81CC07021E71016F00B8AE1D /* Views */,
 				81CC07001E71016B00B8AE1D /* View Controllers */,
 				81CC06FF1E71016A00B8AE1D /* Model Controllers */,
 				81CC06FE1E71016800B8AE1D /* Models */,
 				81EAE6BC1E7779B400BD6B79 /* Controllers */,
 				81A85CDF1E79B3D0005C5F47 /* Enums */,
+				81CC07021E71016F00B8AE1D /* HELP */,
 				81CC07031E7101AB00B8AE1D /* Resources */,
 			);
 			path = Danger;
@@ -131,7 +133,7 @@
 				81AFAB2C1E7AEC5C0006A812 /* UserSettingViewController.swift */,
 				81CC07041E71092D00B8AE1D /* MainViewController.swift */,
 				81B3DE441E770ECD00B8CED3 /* DetailViewController.swift */,
-				81EAE6C51E78834300BD6B79 /* TravelLogTableViewController.swift */,
+				81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -145,11 +147,12 @@
 			name = Stroyboards;
 			sourceTree = "<group>";
 		};
-		81CC07021E71016F00B8AE1D /* Views */ = {
+		81CC07021E71016F00B8AE1D /* HELP */ = {
 			isa = PBXGroup;
 			children = (
+				81AFAB301E7B30DA0006A812 /* Help.swift */,
 			);
-			name = Views;
+			name = HELP;
 			sourceTree = "<group>";
 		};
 		81CC07031E7101AB00B8AE1D /* Resources */ = {
@@ -262,13 +265,14 @@
 				81EAE6BB1E7769C200BD6B79 /* CrimeRateController.swift in Sources */,
 				81EAE6B91E7769AA00BD6B79 /* CrimeRate.swift in Sources */,
 				81CC06ED1E71015D00B8AE1D /* AppDelegate.swift in Sources */,
-				81EAE6C61E78834300BD6B79 /* TravelLogTableViewController.swift in Sources */,
 				81CC07051E71092D00B8AE1D /* MainViewController.swift in Sources */,
 				81EAE6C41E7865A700BD6B79 /* States.swift in Sources */,
 				81AFAB2D1E7AEC5C0006A812 /* UserSettingViewController.swift in Sources */,
+				81B074AD1E7C4F8900AE3510 /* TravelLogViewController.swift in Sources */,
 				81EAE6CC1E788E8F00BD6B79 /* UserController.swift in Sources */,
 				81CC07F51E770BEF00B8AE1D /* PageViewController.swift in Sources */,
 				81EAE6BE1E7779CF00BD6B79 /* NetworkController.swift in Sources */,
+				81AFAB311E7B30DA0006A812 /* Help.swift in Sources */,
 				81EAE6C81E78890E00BD6B79 /* LoginViewController.swift in Sources */,
 				81B3DE451E770ECD00B8CED3 /* DetailViewController.swift in Sources */,
 				81EAE6CA1E788A6B00BD6B79 /* User.swift in Sources */,
