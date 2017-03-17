@@ -14,6 +14,7 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
         super.viewDidLoad()
         userStatesTableView.delegate = self
         userStatesTableView.dataSource = self
+        self.updateViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,8 +40,10 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     //==============================================================
     @IBAction func updateButtonTapped(_ sender: Any) {
         guard let username = usernameTextField.text, let email = emailTextField.text, !username.isEmpty, !email.isEmpty else { return }
-        UserController.shared.updateUserRecord(username: username, email: email) {
-            
+        UserController.shared.updateUserRecord(username: username, email: email) { (bool) in
+            if bool {
+                print("Username is takin already")
+            }
         }
     }
     
@@ -58,6 +61,14 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
         cell.textLabel?.text = states
         
         return cell
+    }
+    
+    //==============================================================
+    // MARK: - Update Views
+    //==============================================================
+    func updateViews() {
+        usernameTextField.text = currentUser?.username
+        emailTextField.text = currentUser?.email
     }
 }
 

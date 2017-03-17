@@ -23,15 +23,19 @@ class LoginViewController: UIViewController {
         cancelButton.isEnabled = false
         submitButton.isEnabled = false
         guard let username = usernameTextField.text, let email = emailTextField.text, !email.isEmpty, !username.isEmpty else { return }
-        UserController.shared.saveUserData(username: username, email: email) {
+        UserController.shared.saveUserData(username: username, email: email) { (bool) in
             self.cancelButton.isEnabled = true
             self.submitButton.isEnabled = true
-            self.dismiss(animated: true, completion: nil)
+            
+            if bool {
+                print("dublicate name")
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
 }

@@ -56,23 +56,50 @@ class UserController {
         }
     }
     
-    func saveUserData(username: String, email: String, completion: @escaping() -> Void) {
-        let user = User(username: username, email: email)
-        let record = CKRecord(user: user)
-        
-        publicDB.save(record) { (returnedRecord, error) in
-            if let error = error {
-                print("Error: User's data was not saved to cloudKit successfully. Error: \(error.localizedDescription)")
-                completion()
+    //==============================================================
+    // MARK: - Save to CloudKit
+    //==============================================================
+    func saveUserData(username: String, email: String, completion: @escaping(Bool) -> Void) {
+        checkUserNameforDoubles(username: username) { (bool) in
+            if bool {
+                print("That username is takin already")
+                completion(true)
+                return
             }
-            guard let returnedRecord = returnedRecord else { completion(); return }
-            self.loggedInUser = User(record: returnedRecord)
             
-            print("Saved to cloudKit successfully")
-            completion()
+            let user = User(username: username, email: email)
+            let record = CKRecord(user: user)
+            self.publicDB.save(record) { (returnedRecord, error) in
+                if let error = error {
+                    print("Error: User's data was not saved to cloudKit successfully. Error: \(error.localizedDescription)")
+                    completion(false)
+                }
+                
+                guard let returnedRecord = returnedRecord else { completion(false); return }
+                self.loggedInUser = User(record: returnedRecord)
+                print("Saved to cloudKit successfully")
+                completion(false)
+            }
         }
     }
     
+    func checkUserNameforDoubles(username: String, completion: @escaping(Bool) -> Void) {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "User", predicate: predicate)
+        
+        publicDB.perform(query, inZoneWith: nil) { (records, error) in
+            if let error = error { print("Error: There was an error fetching user's data from cloudKit. Error: \(error.localizedDescription)"); completion(false); return }
+            guard let records = records else { print("Error: Records is nil, nothing was fetched. "); completion(false); return }
+            let users = records.flatMap({ User(record: $0) })
+            let usernames = users.flatMap({ $0.username })
+            let duplicate = usernames.contains(username)
+            completion(duplicate)
+        }
+    }
+    
+    //==============================================================
+    // MARK: - Modify record in CloudKit
+    //==============================================================
     func addToUserRecord(warningPercent: Int, completion: @escaping() -> Void) {
         loggedInUser?.warningPercent = warningPercent
         guard let user = loggedInUser else { completion(); return }
@@ -85,17 +112,25 @@ class UserController {
         publicDB.add(modifyOperation)
     }
     
-    func updateUserRecord(username: String, email: String, completion: @escaping() -> Void) {
-        loggedInUser?.username = username
-        loggedInUser?.email = email
-        guard let user = loggedInUser else { completion(); return }
-        let record = CKRecord(user: user)
-        let modifyOperation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
-        modifyOperation.completionBlock = {
-            completion()
+    func updateUserRecord(username: String, email: String, completion: @escaping(Bool) -> Void) {
+        checkUserNameforDoubles(username: username) { (bool) in
+            if (bool) {
+                print("Username is Taken already")
+                completion(true)
+                return
+            }
+            
+            self.loggedInUser?.username = username
+            self.loggedInUser?.email = email
+            guard let user = self.loggedInUser else { completion(false); return }
+            let record = CKRecord(user: user)
+            let modifyOperation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+            modifyOperation.completionBlock = {
+                completion(false)
+            }
+            modifyOperation.savePolicy = .changedKeys
+            self.publicDB.add(modifyOperation)
         }
-        modifyOperation.savePolicy = .changedKeys
-        publicDB.add(modifyOperation)
     }
     
     func addStateToRecord(state: String, completion: @escaping() -> Void) {
