@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		81A85CDE1E79A5F6005C5F47 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A85CDD1E79A5F6005C5F47 /* CloudKitManager.swift */; };
 		81AFAB2D1E7AEC5C0006A812 /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFAB2C1E7AEC5C0006A812 /* UserSettingViewController.swift */; };
 		81AFAB311E7B30DA0006A812 /* Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFAB301E7B30DA0006A812 /* Help.swift */; };
 		81B074AD1E7C4F8900AE3510 /* TravelLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */; };
@@ -29,7 +28,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		81A85CDD1E79A5F6005C5F47 /* CloudKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		81AFAB2C1E7AEC5C0006A812 /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		81AFAB301E7B30DA0006A812 /* Help.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Help.swift; sourceTree = "<group>"; };
 		81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelLogViewController.swift; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 			isa = PBXGroup;
 			children = (
 				81EAE6BD1E7779CF00BD6B79 /* NetworkController.swift */,
-				81A85CDD1E79A5F6005C5F47 /* CloudKitManager.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -276,7 +273,6 @@
 				81EAE6C81E78890E00BD6B79 /* LoginViewController.swift in Sources */,
 				81B3DE451E770ECD00B8CED3 /* DetailViewController.swift in Sources */,
 				81EAE6CA1E788A6B00BD6B79 /* User.swift in Sources */,
-				81A85CDE1E79A5F6005C5F47 /* CloudKitManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

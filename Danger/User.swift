@@ -15,28 +15,32 @@ class User {
     var email: String
     var states: [String]
     var cloudKitRecordID: CKRecordID?
+    let userRef: CKReference
     var warningPercent: Int?
     var crimeRate: [CrimeRate]
     
-    init(username: String, email: String, states: [String] = [""], warningPercent: Int = 0, crimeRate: [CrimeRate] = []) {
+    init(username: String, email: String, states: [String] = [""], warningPercent: Int = 0, crimeRate: [CrimeRate] = [], userRef: CKReference) {
         self.username = username
         self.email = email
         self.states = states
         self.warningPercent = warningPercent
         self.crimeRate = crimeRate
+        self.userRef = userRef
     }
     
     init?(record: CKRecord) {
         guard let username = record["username"] as? String,
             let email = record["email"] as? String,
             let states = record["states"] as? [String],
-            let warningPercent = record["warningPercent"] as? Int else { return nil }
+            let warningPercent = record["warningPercent"] as? Int,
+            let userRef = record["userRef"] as? CKReference else { return nil }
         self.username = username
         self.email = email
         self.states = states
         self.warningPercent = warningPercent
         self.crimeRate = []
         self.cloudKitRecordID = record.recordID
+        self.userRef = userRef
     }
 }
 
@@ -48,5 +52,6 @@ extension CKRecord {
         self.setValue(user.email, forKey: "email")
         self.setValue(user.states, forKey: "states")
         self.setValue(user.warningPercent, forKey: "warningPercent")
+        self.setValue(user.userRef, forKey: "userRef")
     }
 }

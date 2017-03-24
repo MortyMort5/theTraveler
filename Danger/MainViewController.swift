@@ -108,16 +108,16 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
             }
             DispatchQueue.main.async {
                 self.percentLabel?.text = "\(crimeRates[0].warningPercent)%"
-            }
-            
-            if (self.currentUser != nil)  {
-                guard let user = self.currentUser else { return }
-                if user.warningPercent! >= crimeRates[0].warningPercent {
-                    self.saveCrimeRatesToCloudKit(crime: crimeRates)
-                    NotificationCenter.default.addObserver(self, selector:#selector(self.viewDidLoad), name: CrimeRateController.shared.crimeIsAboveSetPercent, object: nil)
-                    print("Hit notification Observer")
+                if (self.currentUser != nil)  {
+                    guard let user = self.currentUser else { return }
+                    if user.warningPercent! >= crimeRates[0].warningPercent {
+                        self.saveCrimeRatesToCloudKit(crime: crimeRates)
+                        NotificationCenter.default.addObserver(self, selector:#selector(self.viewDidLoad), name: CrimeRateController.shared.crimeIsAboveSetPercent, object: nil)
+                        print("Hit notification Observer")
+                    }
                 }
             }
+            
         })
     }
     

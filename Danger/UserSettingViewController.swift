@@ -20,6 +20,7 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.viewDidLoad()
+        self.updateViews()
         currentUser = UserController.shared.loggedInUser
     }
     
@@ -67,8 +68,11 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     // MARK: - Update Views
     //==============================================================
     func updateViews() {
-        usernameTextField.text = currentUser?.username
-        emailTextField.text = currentUser?.email
+        DispatchQueue.main.async {
+            self.usernameTextField.text = self.currentUser?.username
+            self.emailTextField.text = self.currentUser?.email
+            
+        }
     }
 }
 

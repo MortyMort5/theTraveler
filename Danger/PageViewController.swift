@@ -12,6 +12,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector:#selector(self.setCurrentUser), name: UserController.shared.UserIsLoggedIn, object: nil)
         dataSource = self
         self.delegate = self
         verifyUser()
@@ -26,6 +27,17 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
             self.dataSource = nil
             self.dataSource = self
             self.delegate = self
+            self.configurePageControl()
+        }
+    }
+    
+    func setCurrentUser() {
+        self.dataSource = nil
+        self.dataSource = self
+        self.delegate = self
+        currentUser = UserController.shared.loggedInUser
+        if currentUser != nil {
+            verifyUser()
             self.configurePageControl()
         }
     }

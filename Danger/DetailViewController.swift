@@ -38,7 +38,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             UserController.shared.addToUserRecord(warningPercent: percent, completion: { 
               print("Saved to cloudkit with: \(percent)")
                 
-                
             })
         }
     }
