@@ -28,7 +28,7 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     // MARK: - Properties
     //==============================================================
     var currentUser: User?
-    
+
     //==============================================================
     // MARK: - IBOutlets
     //==============================================================
@@ -40,12 +40,31 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     // MARK: - IBActions
     //==============================================================
     @IBAction func updateButtonTapped(_ sender: Any) {
-        guard let username = usernameTextField.text, let email = emailTextField.text, !username.isEmpty, !email.isEmpty else { return }
+        LoadingIndicatorView.show("Updating")
+        guard let username = usernameTextField.text, let email = emailTextField.text, !username.isEmpty, !email.isEmpty else { self.timerToStopUpdating(); return }
         UserController.shared.updateUserRecord(username: username, email: email) { (bool) in
             if bool {
                 print("Username is takin already")
+                DispatchQueue.main.async {
+                    self.timerToStopUpdating()
+                    self.usernameTakenAlert()
+                }
+            }
+            DispatchQueue.main.async {
+                self.timerToStopUpdating()
             }
         }
+    }
+    
+    //==============================================================
+    // MARK: - Helper Functions
+    //==============================================================
+    func timerToStopUpdating() {
+        Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(UserSettingViewController.stopUpdating), userInfo: nil, repeats: false)
+    }
+    
+    func stopUpdating() {
+        LoadingIndicatorView.hide()
     }
     
     //==============================================================
@@ -71,8 +90,17 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
         DispatchQueue.main.async {
             self.usernameTextField.text = self.currentUser?.username
             self.emailTextField.text = self.currentUser?.email
-            
         }
+    }
+    
+    //==============================================================
+    // MARK: - AlertController
+    //==============================================================
+    func usernameTakenAlert() {
+        let alertController = UIAlertController(title: "That username is already taken", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
 }
 

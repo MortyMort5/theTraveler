@@ -37,7 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
     }
-
-
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        MainViewController.shared.findLocation()
+    }
+    
 }
 

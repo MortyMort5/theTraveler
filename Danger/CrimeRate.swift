@@ -57,6 +57,7 @@ class CrimeRate {
         self.count = count
         self.name = name
         self.userReference = cloudKitRecord[userReferenceKey] as? CKReference
+        self.cloudKitRecordID = cloudKitRecord.recordID
     }
 }
 

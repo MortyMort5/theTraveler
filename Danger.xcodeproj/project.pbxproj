@@ -7,10 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8143712C1E85DB4D00AE42CF /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8143712B1E85DB4D00AE42CF /* AlertController.swift */; };
+		8162915E1E896AD00025FCE6 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8162915D1E896AD00025FCE6 /* LoadingViewController.swift */; };
 		81AFAB2D1E7AEC5C0006A812 /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFAB2C1E7AEC5C0006A812 /* UserSettingViewController.swift */; };
 		81AFAB311E7B30DA0006A812 /* Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFAB301E7B30DA0006A812 /* Help.swift */; };
 		81B074AD1E7C4F8900AE3510 /* TravelLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */; };
 		81B3DE451E770ECD00B8CED3 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B3DE441E770ECD00B8CED3 /* DetailViewController.swift */; };
+		81BD9CE01E8AC99700153C67 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BD9CDF1E8AC99700153C67 /* MapKit.framework */; };
+		81BD9CE21E8AC9A600153C67 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BD9CE11E8AC9A600153C67 /* CoreLocation.framework */; };
+		81BD9D071E8B52C100153C67 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BD9D061E8B52C100153C67 /* LoadingIndicatorView.swift */; };
 		81CC06ED1E71015D00B8AE1D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CC06EC1E71015D00B8AE1D /* AppDelegate.swift */; };
 		81CC06F21E71015D00B8AE1D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81CC06F01E71015D00B8AE1D /* Main.storyboard */; };
 		81CC06F41E71015D00B8AE1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81CC06F31E71015D00B8AE1D /* Assets.xcassets */; };
@@ -28,10 +33,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8143712B1E85DB4D00AE42CF /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		8162915D1E896AD00025FCE6 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		81AFAB2C1E7AEC5C0006A812 /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		81AFAB301E7B30DA0006A812 /* Help.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Help.swift; sourceTree = "<group>"; };
 		81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelLogViewController.swift; sourceTree = "<group>"; };
 		81B3DE441E770ECD00B8CED3 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		81BD9CDF1E8AC99700153C67 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		81BD9CE11E8AC9A600153C67 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		81BD9D061E8B52C100153C67 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		81CC06E91E71015D00B8AE1D /* Danger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Danger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81CC06EC1E71015D00B8AE1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81CC06F11E71015D00B8AE1D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -56,6 +66,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81BD9CE21E8AC9A600153C67 /* CoreLocation.framework in Frameworks */,
+				81BD9CE01E8AC99700153C67 /* MapKit.framework in Frameworks */,
 				81EAE6D01E78A2DF00BD6B79 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,12 +138,14 @@
 		81CC07001E71016B00B8AE1D /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8162915D1E896AD00025FCE6 /* LoadingViewController.swift */,
 				81EAE6C71E78890E00BD6B79 /* LoginViewController.swift */,
 				81CC07F41E770BEF00B8AE1D /* PageViewController.swift */,
 				81AFAB2C1E7AEC5C0006A812 /* UserSettingViewController.swift */,
 				81CC07041E71092D00B8AE1D /* MainViewController.swift */,
 				81B3DE441E770ECD00B8CED3 /* DetailViewController.swift */,
 				81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */,
+				81BD9D061E8B52C100153C67 /* LoadingIndicatorView.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -166,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				81EAE6BD1E7779CF00BD6B79 /* NetworkController.swift */,
+				8143712B1E85DB4D00AE42CF /* AlertController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -173,6 +188,8 @@
 		81EAE6CE1E78A2DF00BD6B79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				81BD9CE11E8AC9A600153C67 /* CoreLocation.framework */,
+				81BD9CDF1E8AC99700153C67 /* MapKit.framework */,
 				81EAE6CF1E78A2DF00BD6B79 /* CloudKit.framework */,
 			);
 			name = Frameworks;
@@ -213,6 +230,9 @@
 						DevelopmentTeam = 5H73PY6T7Z;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 0;
 							};
@@ -260,8 +280,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				81EAE6BB1E7769C200BD6B79 /* CrimeRateController.swift in Sources */,
+				8143712C1E85DB4D00AE42CF /* AlertController.swift in Sources */,
 				81EAE6B91E7769AA00BD6B79 /* CrimeRate.swift in Sources */,
+				8162915E1E896AD00025FCE6 /* LoadingViewController.swift in Sources */,
 				81CC06ED1E71015D00B8AE1D /* AppDelegate.swift in Sources */,
+				81BD9D071E8B52C100153C67 /* LoadingIndicatorView.swift in Sources */,
 				81CC07051E71092D00B8AE1D /* MainViewController.swift in Sources */,
 				81EAE6C41E7865A700BD6B79 /* States.swift in Sources */,
 				81AFAB2D1E7AEC5C0006A812 /* UserSettingViewController.swift in Sources */,

@@ -15,10 +15,19 @@ class UserController {
     let publicDB = CKContainer.default().publicCloudDatabase
     var users: [User] = []
     let UserIsLoggedIn = Notification.Name("UserIsLoggedIn")
+    let CheckingToSeeIfDoneFetchingUser = Notification.Name("CheckingToSeeIfDoneFetchingUser")
+    
+    var loadingDone: Bool = false {
+        didSet {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: self.CheckingToSeeIfDoneFetchingUser, object: self)
+            }
+        }
+    }
+    
     var loggedInUser: User? {
         didSet {
             DispatchQueue.main.async {
-                
                 NotificationCenter.default.post(name: self.UserIsLoggedIn, object: self)
             }
         }
@@ -29,13 +38,19 @@ class UserController {
             guard let userRecordID = userRecordID else { return }
             self.fetchDataFor(userRecordID: userRecordID) { (user) in
                 self.loggedInUser = user
+                self.loadingDone = true
             }
         }
     }
     
     init() {
         CKContainer.default().fetchUserRecordID { (recordID, error) in
-            guard let recordID = recordID else { return }
+            if let error = error {
+                print("Error with fetching currentUsersID. \(error.localizedDescription)")
+                self.loadingDone = true
+                return
+            }
+            guard let recordID = recordID else { self.loadingDone = true; return }
             self.userRecordID = recordID
         }
     }
@@ -75,7 +90,6 @@ class UserController {
             
             let currentUser = User(record: currentUserRecord)
             completion(currentUser)
-            
         }
     }
     
@@ -117,7 +131,6 @@ class UserController {
         self.publicDB.add(queryOperation)
     }
 
-    
     //==============================================================
     // MARK: - Save to CloudKit
     //==============================================================
@@ -128,6 +141,7 @@ class UserController {
                 completion(true)
                 return
             }
+            
             guard let userRecordID = self.userRecordID else { completion(false); return }
             let userRef = CKReference(recordID: userRecordID, action: .deleteSelf)
             let user = User(username: username, email: email, userRef: userRef)
@@ -158,10 +172,8 @@ class UserController {
             if records?.count == 0 {
                 completion(false)
             } else {
-                
                 completion(true)
             }
-            
         }
     }
     

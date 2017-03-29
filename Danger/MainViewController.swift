@@ -8,29 +8,79 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        currentUser = UserController.shared.loggedInUser
+        findLocation()
+//        var _ = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(self.findLocation), userInfo: nil, repeats: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewDidLoad()
         currentUser = UserController.shared.loggedInUser
+        NotificationCenter.default.addObserver(self, selector: #selector(self.observeCrimeRates), name: UserController.shared.UserIsLoggedIn, object: nil)
     }
     
+    //==============================================================
+    // MARK: - Helper Functions
+    //==============================================================
+    func findLocation() {
+        locationManager.delegate = self
+        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedAlways {
+            self.locationManager.requestAlwaysAuthorization()
+        }
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.requestLocation()
+    }
+    
+    func observeCrimeRates() {
+        if (self.currentUser != nil)  {
+            NotificationCenter.default.addObserver(self, selector:#selector(self.saveCrimeRatesToCloudKit(notification:)), name: CrimeRateController.shared.crimeIsAboveSetPercent, object: nil)
+            print("Hit notification Observer")
+        }
+    }
+    
+    func regionMonitoring(lat: Double, long: Double) {
+        let currentRegion = CLCircularRegion(center: CLLocationCoordinate2DMake(lat, long), radius: 2000, identifier: "userLocation")
+        locationManager.startMonitoring(for: currentRegion)
+        print("Made Region")
+    }
+    
+    func fetchCityAndStateFor(location: CLLocation) {
+        CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
+            if let error = error {
+                print("reverse geolocation failed with an error: \(error.localizedDescription)")
+            }
+            
+            guard let placemarksArr = placemarks else { return }
+            if placemarksArr.count > 0 && placemarksArr.count < 5 && self.isViewLoaded {
+                let pm = placemarksArr[0] as CLPlacemark
+                guard let city = pm.locality, let state = pm.administrativeArea else { return }
+                self.cityLabel.text = "\(city), \(state)"
+                guard let fullNameState = States.states[state] else { return }
+                self.checkAndAddState(state: fullNameState)
+                self.fetchCrimeData(city: city, state: fullNameState)
+            } else {
+                print("Problem with the data received from gocoder")
+            }
+        }
+    }
+
     //==============================================================
     // MARK: - Properties
     //==============================================================
     var locationManager: CLLocationManager = CLLocationManager()
     var geoCoder = CLGeocoder()
     var currentUser: User?
+    var locationCount = 0
+    let hour: TimeInterval = 3600
+    static let shared = MainViewController()
+    weak var mapView: MKMapView?
     
     //==============================================================
     // MARK: - IBOutlets
@@ -52,31 +102,29 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     //==============================================================
-    // MARK: - Current Location
+    // MARK: - Location Manager Functions
     //==============================================================
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
+        locationCount += 1
+        print(locationCount)
         guard let location = manager.location else { return }
         
-        CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
-            if let error = error {
-                print("reverse geolocation failed with an error: \(error.localizedDescription)")
-            }
-            
-            guard let placemarksArr = placemarks else { return }
-            
-            if placemarksArr.count > 0 {
-                let pm = placemarksArr[0] as CLPlacemark
-                guard let city = pm.locality, let state = pm.administrativeArea else { return }
-                self.cityLabel.text = "\(city), \(state)"
-                self.locationManager.stopUpdatingLocation()
-                guard let fullNameState = States.states[state] else { return }
-                self.checkAndAddState(state: fullNameState)
-                self.fetchCrimeData(city: city, state: fullNameState)
-            } else {
-                print("Problem with the data received from gocoder")
-            }
+        if locationCount == 1 {
+            regionMonitoring(lat: location.coordinate.latitude, long: location.coordinate.longitude)
+            self.fetchCityAndStateFor(location: location)
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        guard let location = manager.location else { return }
+        print("Exited Region")
+        regionMonitoring(lat: location.coordinate.latitude, long: location.coordinate.longitude)
+        fetchCityAndStateFor(location: location)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -98,7 +146,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     //==============================================================
-    // MARK: - Fetch CrimeRate for current location with city and state
+    // MARK: - Fetch and Save CrimeRate
     //==============================================================
     func fetchCrimeData(city: String, state: String) {
         CrimeRateController.shared.fetchCrimeData(byCurrentLocation: "\(city), \(state)", completion: { (crimeRates) in
@@ -108,21 +156,14 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
             }
             DispatchQueue.main.async {
                 self.percentLabel?.text = "\(crimeRates[0].warningPercent)%"
-                if (self.currentUser != nil)  {
-                    guard let user = self.currentUser else { return }
-                    if user.warningPercent! >= crimeRates[0].warningPercent {
-                        self.saveCrimeRatesToCloudKit(crime: crimeRates)
-                        NotificationCenter.default.addObserver(self, selector:#selector(self.viewDidLoad), name: CrimeRateController.shared.crimeIsAboveSetPercent, object: nil)
-                        print("Hit notification Observer")
-                    }
-                }
             }
-            
         })
     }
     
-    func saveCrimeRatesToCloudKit(crime: [CrimeRate]) {
-        CrimeRateController.shared.saveCrimeData(crimeRates: crime) { 
+    func saveCrimeRatesToCloudKit(notification: Notification) {
+        guard let userInfo = notification.userInfo, let crimeRates = userInfo["crimeRates"] as? [CrimeRate] else { return }
+        print(crimeRates)
+        CrimeRateController.shared.saveCrimeData(crimeRates: crimeRates) {
             print("Saved crimeRates to cloudKit")
         }
     }

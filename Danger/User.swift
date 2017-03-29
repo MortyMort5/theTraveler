@@ -19,7 +19,7 @@ class User {
     var warningPercent: Int?
     var crimeRate: [CrimeRate]
     
-    init(username: String, email: String, states: [String] = [""], warningPercent: Int = 0, crimeRate: [CrimeRate] = [], userRef: CKReference) {
+    init(username: String, email: String, states: [String] = [], warningPercent: Int = 0, crimeRate: [CrimeRate] = [], userRef: CKReference) {
         self.username = username
         self.email = email
         self.states = states

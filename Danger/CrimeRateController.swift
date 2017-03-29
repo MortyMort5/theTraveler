@@ -13,15 +13,17 @@ class CrimeRateController {
     
     let baseURL = URL(string: "https://odn.data.socrata.com/resource/rtec-wkeg.json")
     let token = "yWGjbgxxBvaO7xdDxF0AQyYCJ"
-    
     let crimeIsAboveSetPercent = Notification.Name("CrimeHasIncreased")
+    
     let publicDB = CKContainer.default().publicCloudDatabase
     var savedCrimeRate: CrimeRate?
     var crimeRates: [CrimeRate] = [] {
         didSet {
-            NotificationCenter.default.post(name: self.crimeIsAboveSetPercent, object: self)
+            NotificationCenter.default.post(name: self.crimeIsAboveSetPercent, object: self, userInfo: ["crimeRates": self.crimeRates])
         }
     }
+    
+    var savedCrimeRateRecordIDs: [CKRecordID] = []
     
     static let shared = CrimeRateController()
     
@@ -30,7 +32,7 @@ class CrimeRateController {
     //==============================================================
     func fetchCrimeData(byCurrentLocation location: String, completion: @escaping([CrimeRate]) -> Void) {
         
-        guard let url = baseURL else { fatalError("Error with unwrapping the baseURL"); completion([]); return }
+        guard let url = baseURL else { fatalError("Error with unwrapping the baseURL") }
 
         let urlParameters = ["name": location, "$$app_token": token]
         
@@ -63,18 +65,21 @@ class CrimeRateController {
             total += rate * 10000.0
         }
         temp = total / 11
-        percent = round(temp)
+        let final = 100 / temp
+        percent = round(final)
         return Int(percent)
     }
     
     //==============================================================
-    // MARK: - CloudKit Functions
+    // MARK: - Save to CloudKit
     //==============================================================
     func saveCrimeData(crimeRates: [CrimeRate],completion: @escaping() -> Void) {
         let records = crimeRates.flatMap({ CKRecord(crimeRate: $0) })
-        let modifyOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+        let modifyOperation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: savedCrimeRateRecordIDs)
+        
         modifyOperation.completionBlock = {
             completion()
+            self.savedCrimeRateRecordIDs = records.flatMap({$0.recordID})
         }
         modifyOperation.savePolicy = .changedKeys
         publicDB.add(modifyOperation)

@@ -9,7 +9,8 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-
+    
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var cancelButton: UIButton!
@@ -20,19 +21,40 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func submitButtonTapped(_ sender: Any) {
+        self.loadingIndicator.startAnimating()
         cancelButton.isEnabled = false
         submitButton.isEnabled = false
-        guard let username = usernameTextField.text, let email = emailTextField.text, !email.isEmpty, !username.isEmpty else { return }
+        guard let username = usernameTextField.text, let email = emailTextField.text, !email.isEmpty, !username.isEmpty else { self.loadingIndicator.stopAnimating(); self.blankTextFieldAlert(); return }
         UserController.shared.saveUserData(username: username, email: email) { (bool) in
-            self.cancelButton.isEnabled = true
-            self.submitButton.isEnabled = true
-            
-            if bool {
-                print("dublicate name")
-            } else {
-                self.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                if bool {
+                    print("dublicate name")
+                    self.loadingIndicator.stopAnimating()
+                    self.usernameTakenAlert()
+                    
+                } else {
+                    self.loadingIndicator.stopAnimating()
+                    self.dismiss(animated: true, completion: nil)
+                }
+                self.cancelButton.isEnabled = true
+                self.submitButton.isEnabled = true
+                self.loadingIndicator.stopAnimating()
             }
         }
+    }
+    
+    func usernameTakenAlert() {
+        let alertController = UIAlertController(title: "That username is already taken", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func blankTextFieldAlert() {
+        let alertController = UIAlertController(title: "Fill in all the text fields", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {

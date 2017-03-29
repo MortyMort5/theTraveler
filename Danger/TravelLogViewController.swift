@@ -10,14 +10,6 @@ import UIKit
 
 class TravelLogViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet weak var tableView: UITableView!
-    
-    @IBAction func backButtonTapped(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    var users: [User] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.fetchAllUsers()
@@ -28,6 +20,26 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
         self.fetchAllUsers()
     }
     
+    //==============================================================
+    // MARK: - IBOutlets
+    //==============================================================
+    @IBOutlet weak var tableView: UITableView!
+    
+    //==============================================================
+    // MARK: - IBActions
+    //==============================================================
+    @IBAction func backButtonTapped(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    //==============================================================
+    // MARK: - Properties
+    //==============================================================
+    var users: [User] = []
+    
+    //==============================================================
+    // MARK: - Fetch Users
+    //==============================================================
     func fetchAllUsers() {
         UserController.shared.fetchAllUserData { (users) in
             if users.count == 0 {
@@ -41,6 +53,9 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    //==============================================================
+    // MARK: - DataSource
+    //==============================================================
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
@@ -49,7 +64,7 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "travelLogCell", for: indexPath)
                 let user = users[indexPath.row]
                 cell.textLabel?.text = user.username
-                cell.detailTextLabel?.text = "\(user.states.count-1)"
+                cell.detailTextLabel?.text = "\(user.states.count)"
         return cell
     }
 }
