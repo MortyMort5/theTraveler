@@ -32,13 +32,17 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func questionButtonTapped(_ sender: Any) {
+        travelerInfoAlert()
+    }
+    
     //==============================================================
     // MARK: - Properties
     //==============================================================
     var users: [User] = []
     
     //==============================================================
-    // MARK: - Fetch Users
+    // MARK: - Helper Functions
     //==============================================================
     func fetchAllUsers() {
         UserController.shared.fetchAllUserData { (users) in
@@ -54,8 +58,23 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     //==============================================================
+    // MARK: - Alert Functions
+    //==============================================================
+    func travelerInfoAlert() {
+        let alertController = UIAlertController(title: "TRAVELERS:", message: "Is a list of all the users with this app and how many states they have currently traveled to this month. The winner will get a prize at the end of each month. Go out and travel and see the world.", preferredStyle: .actionSheet)
+        let travelAction = UIAlertAction(title: "TRAVEL", style: .cancel, handler: nil)
+        alertController.addAction(travelAction)
+        present(alertController, animated: true, completion: nil)
+    }
+
+    
+    //==============================================================
     // MARK: - DataSource
     //==============================================================
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Users & State Count"
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }

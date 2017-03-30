@@ -34,6 +34,10 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     //==============================================================
     // MARK: - Data Source Functions
     //==============================================================
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Crime Type & Crime Count"
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return CrimeRateController.shared.crimeRates.count
     }

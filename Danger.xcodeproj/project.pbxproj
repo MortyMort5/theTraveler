@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8143712C1E85DB4D00AE42CF /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8143712B1E85DB4D00AE42CF /* AlertController.swift */; };
 		8162915E1E896AD00025FCE6 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8162915D1E896AD00025FCE6 /* LoadingViewController.swift */; };
 		81AFAB2D1E7AEC5C0006A812 /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFAB2C1E7AEC5C0006A812 /* UserSettingViewController.swift */; };
 		81AFAB311E7B30DA0006A812 /* Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFAB301E7B30DA0006A812 /* Help.swift */; };
@@ -33,7 +32,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8143712B1E85DB4D00AE42CF /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		8162915D1E896AD00025FCE6 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		81AFAB2C1E7AEC5C0006A812 /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		81AFAB301E7B30DA0006A812 /* Help.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Help.swift; sourceTree = "<group>"; };
@@ -145,7 +143,6 @@
 				81CC07041E71092D00B8AE1D /* MainViewController.swift */,
 				81B3DE441E770ECD00B8CED3 /* DetailViewController.swift */,
 				81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */,
-				81BD9D061E8B52C100153C67 /* LoadingIndicatorView.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -180,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				81EAE6BD1E7779CF00BD6B79 /* NetworkController.swift */,
-				8143712B1E85DB4D00AE42CF /* AlertController.swift */,
+				81BD9D061E8B52C100153C67 /* LoadingIndicatorView.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -280,7 +277,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				81EAE6BB1E7769C200BD6B79 /* CrimeRateController.swift in Sources */,
-				8143712C1E85DB4D00AE42CF /* AlertController.swift in Sources */,
 				81EAE6B91E7769AA00BD6B79 /* CrimeRate.swift in Sources */,
 				8162915E1E896AD00025FCE6 /* LoadingViewController.swift in Sources */,
 				81CC06ED1E71015D00B8AE1D /* AppDelegate.swift in Sources */,
@@ -425,6 +421,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.SterlingMortensen.Danger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -439,6 +436,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.SterlingMortensen.Danger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

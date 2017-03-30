@@ -9,14 +9,20 @@
 import Foundation
 /*
  
- - How do I hide the userSettingViewController if not a user.
- 
- - How to verify if they have already made an account and is on cloudkit
+ - How do I get the view to work when I stop animation in Login View Controller
  
  
  
  
  
+ 
+ 
+ */
+
+/*
+ Before Launching DO:
+ 
+ - change the cleep time in the app delegate to 3
  
  
  */

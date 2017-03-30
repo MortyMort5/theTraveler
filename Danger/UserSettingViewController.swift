@@ -40,8 +40,10 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     // MARK: - IBActions
     //==============================================================
     @IBAction func updateButtonTapped(_ sender: Any) {
+        usernameTextField.resignFirstResponder()
+        emailTextField.resignFirstResponder()
         LoadingIndicatorView.show("Updating")
-        guard let username = usernameTextField.text, let email = emailTextField.text, !username.isEmpty, !email.isEmpty else { self.timerToStopUpdating(); return }
+        guard let username = usernameTextField.text, let email = emailTextField.text, !username.isEmpty, !email.isEmpty else { stopUpdating(); return }
         UserController.shared.updateUserRecord(username: username, email: email) { (bool) in
             if bool {
                 print("Username is takin already")
@@ -70,6 +72,11 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     //==============================================================
     // MARK: - Data Source FUNCTIONS
     //==============================================================
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let username = currentUser?.username else { return ""}
+        return "States \(username) has Visited"
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let stateCount = currentUser?.states.count else { return 0 }
         return stateCount
@@ -79,7 +86,6 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
         let cell = tableView.dequeueReusableCell(withIdentifier: "userStateCell", for: indexPath)
         guard let states = currentUser?.states[indexPath.row] else { return cell }
         cell.textLabel?.text = states
-        
         return cell
     }
     

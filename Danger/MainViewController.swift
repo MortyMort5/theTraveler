@@ -26,52 +26,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     //==============================================================
-    // MARK: - Helper Functions
-    //==============================================================
-    func findLocation() {
-        locationManager.delegate = self
-        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedAlways {
-            self.locationManager.requestAlwaysAuthorization()
-        }
-        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-        locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.requestLocation()
-    }
-    
-    func observeCrimeRates() {
-        if (self.currentUser != nil)  {
-            NotificationCenter.default.addObserver(self, selector:#selector(self.saveCrimeRatesToCloudKit(notification:)), name: CrimeRateController.shared.crimeIsAboveSetPercent, object: nil)
-            print("Hit notification Observer")
-        }
-    }
-    
-    func regionMonitoring(lat: Double, long: Double) {
-        let currentRegion = CLCircularRegion(center: CLLocationCoordinate2DMake(lat, long), radius: 2000, identifier: "userLocation")
-        locationManager.startMonitoring(for: currentRegion)
-        print("Made Region")
-    }
-    
-    func fetchCityAndStateFor(location: CLLocation) {
-        CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
-            if let error = error {
-                print("reverse geolocation failed with an error: \(error.localizedDescription)")
-            }
-            
-            guard let placemarksArr = placemarks else { return }
-            if placemarksArr.count > 0 && placemarksArr.count < 5 && self.isViewLoaded {
-                let pm = placemarksArr[0] as CLPlacemark
-                guard let city = pm.locality, let state = pm.administrativeArea else { return }
-                self.cityLabel.text = "\(city), \(state)"
-                guard let fullNameState = States.states[state] else { return }
-                self.checkAndAddState(state: fullNameState)
-                self.fetchCrimeData(city: city, state: fullNameState)
-            } else {
-                print("Problem with the data received from gocoder")
-            }
-        }
-    }
-
-    //==============================================================
     // MARK: - Properties
     //==============================================================
     var locationManager: CLLocationManager = CLLocationManager()
@@ -102,14 +56,88 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     //==============================================================
+    // MARK: - Helper Functions
+    //==============================================================
+    func findLocation() {
+        locationManager.delegate = self
+        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedAlways {
+            self.locationManager.requestAlwaysAuthorization()
+        }
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.requestLocation()
+    }
+    
+    func observeCrimeRates() {
+        if (self.currentUser != nil)  {
+            NotificationCenter.default.addObserver(self, selector:#selector(self.saveCrimeRatesToCloudKit(notification:)), name: CrimeRateController.shared.crimeIsAboveSetPercent, object: nil)
+            print("Hit notification Observer")
+        }
+    }
+    
+    func regionMonitoring(lat: Double, long: Double) {
+        let currentRegion = CLCircularRegion(center: CLLocationCoordinate2DMake(lat, long), radius: 5000, identifier: "userLocation")
+        locationManager.startMonitoring(for: currentRegion)
+        print("Made Region")
+    }
+    
+    func fetchCityAndStateFor(location: CLLocation) {
+        CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
+            if let error = error {
+                print("reverse geolocation failed with an error: \(error.localizedDescription)")
+            }
+            guard let placemarksArr = placemarks else { return }
+            if placemarksArr.count > 0 && placemarksArr.count < 5 && self.isViewLoaded {
+                let pm = placemarksArr[0] as CLPlacemark
+                guard let city = pm.locality, let state = pm.administrativeArea else { return }
+                self.cityLabel.text = "\(city), \(state)"
+                guard let fullNameState = States.states[state] else { return }
+                self.checkAndAddState(state: fullNameState)
+                self.fetchCrimeData(city: city, state: fullNameState)
+            } else {
+                print("Problem with the data received from gocoder")
+            }
+        }
+    }
+
+    func checkAndAddState(state: String?) {
+        guard let state = state else { return }
+        if currentUser != nil {
+            if !(currentUser?.states.contains(state))! {
+                UserController.shared.addStateToRecord(state: state, completion: {
+                    print("Added State to states Array")
+                })
+            }
+        }
+    }
+    
+    func fetchCrimeData(city: String, state: String) {
+        CrimeRateController.shared.fetchCrimeData(byCurrentLocation: "\(city), \(state)", completion: { (crimeRates) in
+            if crimeRates.count == 0 {
+                print("Nothing was fetched by that city and state")
+                return
+            }
+            DispatchQueue.main.async {
+                self.percentLabel?.text = "\(crimeRates[0].warningPercent)%"
+            }
+        })
+    }
+    
+    func saveCrimeRatesToCloudKit(notification: Notification) {
+        guard let userInfo = notification.userInfo, let crimeRates = userInfo["crimeRates"] as? [CrimeRate] else { return }
+        print(crimeRates)
+        CrimeRateController.shared.saveCrimeData(crimeRates: crimeRates) {
+            print("Saved crimeRates to cloudKit")
+        }
+    }
+    
+    //==============================================================
     // MARK: - Location Manager Functions
     //==============================================================
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
         locationCount += 1
         print(locationCount)
         guard let location = manager.location else { return }
-        
         if locationCount == 1 {
             regionMonitoring(lat: location.coordinate.latitude, long: location.coordinate.longitude)
             self.fetchCityAndStateFor(location: location)
@@ -125,6 +153,25 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
+        // Not Determined
+        if status.hashValue == 0 {
+            print("Not yet Determined Access")
+        }
+        
+        // Restricted
+        if status.hashValue == 1 {
+            self.restrictedAccessAlert()
+        }
+        
+        // Denied
+        if status.hashValue == 2 {
+            self.deniedAccessAlert()
+        }
+        
+        // Always allow
+        if status.hashValue == 3 {
+            print("Always allowed access")
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -132,40 +179,24 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     //==============================================================
-    // MARK: - Checks if current state is in array and if not appends state
+    // MARK: - Alert Functions
     //==============================================================
-    func checkAndAddState(state: String?) {
-        guard let state = state else { return }
-        if currentUser != nil {
-            if !(currentUser?.states.contains(state))! {
-                UserController.shared.addStateToRecord(state: state, completion: { 
-                    print("Added State to states Array")
-                })
-            }
+    func deniedAccessAlert() {
+        let alertController = UIAlertController(title: "Denied Access to your Location", message: "We need access to your location inorder for you to use this app:", preferredStyle: .alert)
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        let allowAction = UIAlertAction(title: "Allow", style: .default) { (_) in
+            self.locationManager.requestAlwaysAuthorization()
         }
+        alertController.addAction(noAction)
+        alertController.addAction(allowAction)
+        present(alertController, animated: true, completion: nil)
     }
     
-    //==============================================================
-    // MARK: - Fetch and Save CrimeRate
-    //==============================================================
-    func fetchCrimeData(city: String, state: String) {
-        CrimeRateController.shared.fetchCrimeData(byCurrentLocation: "\(city), \(state)", completion: { (crimeRates) in
-            if crimeRates.count == 0 {
-                print("Nothing was fetched by that city and state")
-                return 
-            }
-            DispatchQueue.main.async {
-                self.percentLabel?.text = "\(crimeRates[0].warningPercent)%"
-            }
-        })
-    }
-    
-    func saveCrimeRatesToCloudKit(notification: Notification) {
-        guard let userInfo = notification.userInfo, let crimeRates = userInfo["crimeRates"] as? [CrimeRate] else { return }
-        print(crimeRates)
-        CrimeRateController.shared.saveCrimeData(crimeRates: crimeRates) {
-            print("Saved crimeRates to cloudKit")
-        }
+    func restrictedAccessAlert() {
+        let alertController = UIAlertController(title: "Restricted Access to your location", message: "Possibly due to active restrictions such as parental controls being in place.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
