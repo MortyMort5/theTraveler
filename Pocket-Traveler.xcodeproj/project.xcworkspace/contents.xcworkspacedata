@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Danger.xcodeproj">
+      location = "self:/Users/MORTY/Desktop/DevMountainCapstone/Dangerous/Danger/Pocket-Traveler.xcodeproj">
    </FileRef>
 </Workspace>

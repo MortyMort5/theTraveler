@@ -40,7 +40,7 @@
 		81BD9CDF1E8AC99700153C67 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		81BD9CE11E8AC9A600153C67 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		81BD9D061E8B52C100153C67 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
-		81CC06E91E71015D00B8AE1D /* Danger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Danger.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		81CC06E91E71015D00B8AE1D /* Pocket-Traveler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pocket-Traveler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81CC06EC1E71015D00B8AE1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81CC06F11E71015D00B8AE1D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		81CC06F31E71015D00B8AE1D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 		81CC06EA1E71015D00B8AE1D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				81CC06E91E71015D00B8AE1D /* Danger.app */,
+				81CC06E91E71015D00B8AE1D /* Pocket-Traveler.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,9 +195,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		81CC06E81E71015D00B8AE1D /* Danger */ = {
+		81CC06E81E71015D00B8AE1D /* Pocket-Traveler */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 81CC06FB1E71015D00B8AE1D /* Build configuration list for PBXNativeTarget "Danger" */;
+			buildConfigurationList = 81CC06FB1E71015D00B8AE1D /* Build configuration list for PBXNativeTarget "Pocket-Traveler" */;
 			buildPhases = (
 				81CC06E51E71015D00B8AE1D /* Sources */,
 				81CC06E61E71015D00B8AE1D /* Frameworks */,
@@ -207,9 +207,9 @@
 			);
 			dependencies = (
 			);
-			name = Danger;
+			name = "Pocket-Traveler";
 			productName = Danger;
-			productReference = 81CC06E91E71015D00B8AE1D /* Danger.app */;
+			productReference = 81CC06E91E71015D00B8AE1D /* Pocket-Traveler.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -240,7 +240,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 81CC06E41E71015D00B8AE1D /* Build configuration list for PBXProject "Danger" */;
+			buildConfigurationList = 81CC06E41E71015D00B8AE1D /* Build configuration list for PBXProject "Pocket-Traveler" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -253,7 +253,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				81CC06E81E71015D00B8AE1D /* Danger */,
+				81CC06E81E71015D00B8AE1D /* Pocket-Traveler */,
 			);
 		};
 /* End PBXProject section */
@@ -443,7 +443,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		81CC06E41E71015D00B8AE1D /* Build configuration list for PBXProject "Danger" */ = {
+		81CC06E41E71015D00B8AE1D /* Build configuration list for PBXProject "Pocket-Traveler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				81CC06F91E71015D00B8AE1D /* Debug */,
@@ -452,7 +452,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		81CC06FB1E71015D00B8AE1D /* Build configuration list for PBXNativeTarget "Danger" */ = {
+		81CC06FB1E71015D00B8AE1D /* Build configuration list for PBXNativeTarget "Pocket-Traveler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				81CC06FC1E71015D00B8AE1D /* Debug */,

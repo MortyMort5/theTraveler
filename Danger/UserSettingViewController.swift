@@ -35,6 +35,7 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet weak var userStatesTableView: UITableView!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var warningPercentTextField: UITextField!
     
     //==============================================================
     // MARK: - IBActions
