@@ -62,7 +62,7 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
             if bool {
                 print("Username is takin already")
                 DispatchQueue.main.async {
-                    self.timerToStopUpdating()
+                    self.stopUpdating()
                     self.usernameTakenAlert()
                 }
             }
@@ -95,16 +95,25 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
         var strArr = warningString.characters.map{ String($0) }
         let _ = strArr.removeLast()
         let joinedInt = strArr.joined(separator: "")
-        guard let warningPercentOptional = Int(joinedInt) else { self.invalidWarningPercentAlert(); return }
+        guard let warningPercentOptional = Int(joinedInt) else { self.stopUpdating(); return }
         warningPercent = warningPercentOptional
     }
     
     //==============================================================
     // MARK: - Data Source FUNCTIONS
     //==============================================================
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let username = currentUser?.username else { return UILabel() }
+        let label = UILabel()
+        label.textColor = UIColor.black
+        label.backgroundColor = UIColor(red: 250.0/255, green: 232.0/255, blue: 124.0/255, alpha: 1.0)
+        label.text = "- States \(username) has Visited -"
+        label.textAlignment = .center
+        return label
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let username = currentUser?.username else { return ""}
-        return "States \(username) has Visited"
+        return "label"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

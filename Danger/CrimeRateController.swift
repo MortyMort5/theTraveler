@@ -79,7 +79,9 @@ class CrimeRateController {
         let ratesAsString = crimeRates.flatMap({ $0.rate })
         let rates = ratesAsString.flatMap({ Double($0) })
         for rate in rates {
-            total += rate * 10000.0
+            if rate != 0 {
+                total += rate * 10000.0
+            }
         }
         temp = total / 11
         let final = 100 / temp

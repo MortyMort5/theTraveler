@@ -71,8 +71,17 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
     //==============================================================
     // MARK: - DataSource
     //==============================================================
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.textColor = UIColor.black
+        label.text = "- Users & State Count -"
+        label.backgroundColor = UIColor(red: 250.0/255, green: 232.0/255, blue: 124.0/255, alpha: 1.0)
+        label.textAlignment = .center
+        return label
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Users & State Count"
+        return "label"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

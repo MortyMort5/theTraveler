@@ -16,7 +16,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         dataSource = self
         self.delegate = self
         verifyUser()
-        configurePageControl()
+//        configurePageControl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -27,7 +27,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
             self.dataSource = nil
             self.dataSource = self
             self.delegate = self
-            self.configurePageControl()
+//            self.configurePageControl()
         }
     }
     
@@ -38,7 +38,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         currentUser = UserController.shared.loggedInUser
         if currentUser != nil {
             verifyUser()
-            self.configurePageControl()
+//            self.configurePageControl()
         }
     }
     
@@ -78,29 +78,29 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     //==============================================================
     // MARK: - This sets up the dots at the bottom
     //==============================================================
-    func configurePageControl() {
-        if currentUser != nil {
-            if let viewWithTag = pageControl.viewWithTag(100) {
-                viewWithTag.removeFromSuperview()
-            }
-            pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
-            self.pageControl.numberOfPages = orderedViewControllers.count
-            self.pageControl.currentPage = 1
-            self.pageControl.tintColor = UIColor.black
-            self.pageControl.pageIndicatorTintColor = UIColor.white
-            self.pageControl.currentPageIndicatorTintColor = UIColor(red: 238.0/255, green: 133.0/255, blue: 113.0/255, alpha: 1.0)
-            self.view.addSubview(pageControl)
-        } else {
-            pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
-            self.pageControl.numberOfPages = orderedViewControllers.count
-            self.pageControl.currentPage = 0
-            self.pageControl.tintColor = UIColor.black
-            self.pageControl.pageIndicatorTintColor = UIColor.white
-            self.pageControl.currentPageIndicatorTintColor = UIColor(red: 238.0/255, green: 133.0/255, blue: 113.0/255, alpha: 1.0)
-            self.pageControl.tag = 100
-            self.view.addSubview(pageControl)
-        }
-    }
+//    func configurePageControl() {
+//        if currentUser != nil {
+//            if let viewWithTag = pageControl.viewWithTag(100) {
+//                viewWithTag.removeFromSuperview()
+//            }
+//            pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
+//            self.pageControl.numberOfPages = orderedViewControllers.count
+//            self.pageControl.currentPage = 1
+//            self.pageControl.tintColor = UIColor.black
+//            self.pageControl.pageIndicatorTintColor = UIColor.white
+//            self.pageControl.currentPageIndicatorTintColor = UIColor(red: 238.0/255, green: 133.0/255, blue: 113.0/255, alpha: 1.0)
+//            self.view.addSubview(pageControl)
+//        } else {
+//            pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
+//            self.pageControl.numberOfPages = orderedViewControllers.count
+//            self.pageControl.currentPage = 0
+//            self.pageControl.tintColor = UIColor.black
+//            self.pageControl.pageIndicatorTintColor = UIColor.white
+//            self.pageControl.currentPageIndicatorTintColor = UIColor(red: 238.0/255, green: 133.0/255, blue: 113.0/255, alpha: 1.0)
+//            self.pageControl.tag = 100
+//            self.view.addSubview(pageControl)
+//        }
+//    }
     
     //==============================================================
     // MARK: - Indicates changes to the correct page as you scroll

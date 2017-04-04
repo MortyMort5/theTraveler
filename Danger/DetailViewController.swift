@@ -34,8 +34,17 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     //==============================================================
     // MARK: - Data Source Functions
     //==============================================================
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.textColor = UIColor.black
+        label.backgroundColor = UIColor(red: 250.0/255, green: 232.0/255, blue: 124.0/255, alpha: 1.0)
+        label.text = "- Crime Type & Crime Count -"
+        label.textAlignment = .center
+        return label
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Crime Type & Crime Count"
+        return "label"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
