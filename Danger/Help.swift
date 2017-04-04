@@ -1,6 +1,6 @@
 //
 //  help.swift
-//  Danger
+//  ITravels
 //
 //  Created by Sterling Mortensen on 3/16/17.
 //  Copyright © 2017 Sterling Mortensen. All rights reserved.
@@ -22,7 +22,8 @@ import Foundation
 /*
  Before Launching DO:
  
+ - Subscriptions working
+ - Add the alerts for firts time users
  - change the cleep time in the app delegate to 3
- 
  
  */

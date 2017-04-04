@@ -1,6 +1,6 @@
 //
 //  CrimeRate.swift
-//  Danger
+//  ITravels
 //
 //  Created by Sterling Mortensen on 3/13/17.
 //  Copyright © 2017 Sterling Mortensen. All rights reserved.
@@ -11,11 +11,13 @@ import CloudKit
 
 class CrimeRate {
     
-    private let typeKey = "crime_type"
-    private let rateKey = "crime_rate"
-    private let countKey = "crime_count"
-    private let nameKey = "name"
-    private let userReferenceKey = "userReference"
+    static let typeKey = "crime_type"
+    static let rateKey = "crime_rate"
+    static let countKey = "crime_count"
+    static let nameKey = "name"
+    static let warningPercentKey = "warningPercent"
+    static let userReferenceKey = "userRef"
+    static let crimeRateKey = "CrimeRate"
     
     let type: String
     var rate: String
@@ -23,22 +25,22 @@ class CrimeRate {
     let name: String
     var userReference: CKReference?
     var cloudKitRecordID: CKRecordID?
-    var warningPercent: Int {
-        return CrimeRateController.shared.warningPercentAlgarythm()
-    }
+    var warningPercent: Int?
     
-    init(type: String, rate: String, count: String, name: String) {
-        self.type = type
-        self.rate = rate
-        self.count = count
-        self.name = name
+    init(warningPercent: Int?, userReference: CKReference?) {
+        self.warningPercent = warningPercent
+        self.userReference = userReference
+        self.type = ""
+        self.rate = ""
+        self.count = ""
+        self.name = ""
     }
     
     init?(dictionary: [String: Any]) {
-        guard let type = dictionary[typeKey] as? String,
-            let rate = dictionary[rateKey] as? String,
-            let count = dictionary[countKey] as? String,
-            let name = dictionary[nameKey] as? String else { return nil }
+        guard let type = dictionary[CrimeRate.typeKey] as? String,
+            let rate = dictionary[CrimeRate.rateKey] as? String,
+            let count = dictionary[CrimeRate.countKey] as? String,
+            let name = dictionary[CrimeRate.nameKey] as? String else { return nil }
         
         self.type = type
         self.rate = rate
@@ -47,16 +49,12 @@ class CrimeRate {
     }
     
     init?(cloudKitRecord: CKRecord) {
-        guard let type = cloudKitRecord[typeKey] as? String,
-            let rate = cloudKitRecord[rateKey] as? String,
-            let count = cloudKitRecord[countKey] as? String,
-            let name = cloudKitRecord[nameKey] as? String else { return nil }
-        
-        self.type = type
-        self.rate = rate
-        self.count = count
-        self.name = name
-        self.userReference = cloudKitRecord[userReferenceKey] as? CKReference
+        self.warningPercent = cloudKitRecord[CrimeRate.warningPercentKey] as? Int
+        self.userReference = cloudKitRecord[CrimeRate.userReferenceKey] as? CKReference
+        self.type = ""
+        self.rate = ""
+        self.count = ""
+        self.name = ""
         self.cloudKitRecordID = cloudKitRecord.recordID
     }
 }
@@ -64,12 +62,9 @@ class CrimeRate {
 extension CKRecord {
     convenience init(crimeRate: CrimeRate) {
         let recordID = crimeRate.cloudKitRecordID ?? CKRecordID(recordName: UUID().uuidString)
-        self.init(recordType: "CrimeRate", recordID: recordID)
-        self.setValue(crimeRate.count, forKey: "count")
-        self.setValue(crimeRate.type, forKey: "type")
-        self.setValue(crimeRate.rate, forKey: "rate")
-        self.setValue(crimeRate.name, forKey: "name")
-        self.setValue(crimeRate.userReference, forKey: "userReference")
+        self.init(recordType: CrimeRate.crimeRateKey, recordID: recordID)
+        self.setValue(crimeRate.warningPercent, forKey: CrimeRate.warningPercentKey)
+        self.setValue(crimeRate.userReference, forKey: CrimeRate.userReferenceKey)
     }
 }
 

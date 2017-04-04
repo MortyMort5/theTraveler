@@ -1,6 +1,6 @@
 //
 //  UserSettingViewController.swift
-//  Danger
+//  ITravels
 //
 //  Created by Sterling Mortensen on 3/16/17.
 //  Copyright © 2017 Sterling Mortensen. All rights reserved.
@@ -24,10 +24,19 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
         currentUser = UserController.shared.loggedInUser
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.warningPercentInfoAlert()
+    }
+    
     //==============================================================
     // MARK: - Properties
     //==============================================================
     var currentUser: User?
+    var warningPercent: Int = 0
+    var warningPercentInfo:Bool {
+        return UserDefaults.standard.bool(forKey: "warningPercentInfo")
+    }
 
     //==============================================================
     // MARK: - IBOutlets
@@ -43,9 +52,13 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     @IBAction func updateButtonTapped(_ sender: Any) {
         usernameTextField.resignFirstResponder()
         emailTextField.resignFirstResponder()
+        warningPercentTextField.resignFirstResponder()
         LoadingIndicatorView.show("Updating")
-        guard let username = usernameTextField.text, let email = emailTextField.text, !username.isEmpty, !email.isEmpty else { stopUpdating(); return }
-        UserController.shared.updateUserRecord(username: username, email: email) { (bool) in
+        guard let username = usernameTextField.text, let email = emailTextField.text, let warningPercentString = warningPercentTextField.text, !username.isEmpty, !email.isEmpty else { stopUpdating(); return }
+        
+        validateInt(warningString: warningPercentString)
+        
+        UserController.shared.updateUserRecord(username: username, email: email, warningPercent: warningPercent) { (bool) in
             if bool {
                 print("Username is takin already")
                 DispatchQueue.main.async {
@@ -55,6 +68,14 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
             }
             DispatchQueue.main.async {
                 self.timerToStopUpdating()
+                self.updateViews()
+                if AppDelegate.shared.registeredForRemoteNotifications == true {
+                    CrimeRateController.shared.subscribeToHighDangerLevel(completion: { (error) in
+                        if error != nil {
+                            print("Error with the subscription")
+                        }
+                    })
+                }
             }
         }
     }
@@ -68,6 +89,14 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     
     func stopUpdating() {
         LoadingIndicatorView.hide()
+    }
+    
+    func validateInt(warningString: String) {
+        var strArr = warningString.characters.map{ String($0) }
+        let _ = strArr.removeLast()
+        let joinedInt = strArr.joined(separator: "")
+        guard let warningPercentOptional = Int(joinedInt) else { self.invalidWarningPercentAlert(); return }
+        warningPercent = warningPercentOptional
     }
     
     //==============================================================
@@ -97,6 +126,7 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
         DispatchQueue.main.async {
             self.usernameTextField.text = self.currentUser?.username
             self.emailTextField.text = self.currentUser?.email
+            self.warningPercentTextField.text = "\(self.currentUser?.warningPercent ?? 0)%"
         }
     }
     
@@ -108,6 +138,24 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
         let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func invalidWarningPercentAlert() {
+        let alertController = UIAlertController(title: "Invalid Input", message: "Enter a valid input! Example: 20%", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func warningPercentInfoAlert() {
+        if warningPercentInfo == false {
+            let alert = UIAlertController(title: "This is your profile", message: "Enter a percent in the Warning Percent text field and you will be warned whenever you enter an area that has crime percent higher that what you set here.", preferredStyle: UIAlertControllerStyle.alert)
+            let dismissAction = UIAlertAction(title: "Got it!", style: .cancel, handler: { (_) in
+                UserDefaults.standard.set(true, forKey: "warningPercentInfo")
+            })
+            alert.addAction(dismissAction)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
 

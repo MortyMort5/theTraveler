@@ -1,6 +1,6 @@
 //
 //  MainViewController.swift
-//  Danger
+//  ITravels
 //
 //  Created by Sterling Mortensen on 3/8/17.
 //  Copyright © 2017 Sterling Mortensen. All rights reserved.
@@ -15,14 +15,18 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         currentUser = UserController.shared.loggedInUser
+        switchBackgroundImageForUser()
         findLocation()
-//        var _ = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(self.findLocation), userInfo: nil, repeats: true)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         currentUser = UserController.shared.loggedInUser
-        NotificationCenter.default.addObserver(self, selector: #selector(self.observeCrimeRates), name: UserController.shared.UserIsLoggedIn, object: nil)
+        switchBackgroundImageForUser()
+        if currentUser != nil {
+            travelersInfoAlert()
+        }
     }
     
     //==============================================================
@@ -35,12 +39,16 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     let hour: TimeInterval = 3600
     static let shared = MainViewController()
     weak var mapView: MKMapView?
+    var TravelersInfoAlertProperty:Bool {
+        return UserDefaults.standard.bool(forKey: "TravelersInfoAlertProperty")
+    }
     
     //==============================================================
     // MARK: - IBOutlets
     //==============================================================
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var percentLabel: UILabel!
+    @IBOutlet weak var backgroundImage: UIImageView!
     
     //==============================================================
     // MARK: - IBActions
@@ -60,18 +68,15 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     //==============================================================
     func findLocation() {
         locationManager.delegate = self
-        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedAlways {
-            self.locationManager.requestAlwaysAuthorization()
-        }
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.requestLocation()
     }
     
-    func observeCrimeRates() {
-        if (self.currentUser != nil)  {
-            NotificationCenter.default.addObserver(self, selector:#selector(self.saveCrimeRatesToCloudKit(notification:)), name: CrimeRateController.shared.crimeIsAboveSetPercent, object: nil)
-            print("Hit notification Observer")
+    func switchBackgroundImageForUser() {
+        if currentUser != nil {
+            let background = UIImageView(image: #imageLiteral(resourceName: "User"))
+            self.backgroundImage.image = background.image
         }
     }
     
@@ -112,22 +117,13 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func fetchCrimeData(city: String, state: String) {
-        CrimeRateController.shared.fetchCrimeData(byCurrentLocation: "\(city), \(state)", completion: { (crimeRates) in
-            if crimeRates.count == 0 {
-                print("Nothing was fetched by that city and state")
-                return
+        CrimeRateController.shared.fetchCrimeData(byCurrentLocation: "\(city), \(state)") { (error) in
+            if error != nil {
+                print("Error with fetching Crime Data")
             }
             DispatchQueue.main.async {
-                self.percentLabel?.text = "\(crimeRates[0].warningPercent)%"
+                self.percentLabel.text = "\(CrimeRateController.shared.warningPercent)%"
             }
-        })
-    }
-    
-    func saveCrimeRatesToCloudKit(notification: Notification) {
-        guard let userInfo = notification.userInfo, let crimeRates = userInfo["crimeRates"] as? [CrimeRate] else { return }
-        print(crimeRates)
-        CrimeRateController.shared.saveCrimeData(crimeRates: crimeRates) {
-            print("Saved crimeRates to cloudKit")
         }
     }
     
@@ -197,6 +193,23 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func travelersInfoAlert() {
+        if TravelersInfoAlertProperty == false {
+            let alert = UIAlertController(title: "The TRAVELERS button!", message: "Will show all the users and the count of how many states they have traveled to this month. The user with the most at the end of the month gets a prize", preferredStyle: UIAlertControllerStyle.alert)
+            let dismissAction = UIAlertAction(title: "Got it!", style: .cancel, handler: { (_) in
+                UserDefaults.standard.set(true, forKey: "TravelersInfoAlertProperty")
+            })
+            alert.addAction(dismissAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func alwaysTrackCurrLocatinAlert() {
+        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedAlways {
+            self.locationManager.requestAlwaysAuthorization()
+        }
     }
 }
 

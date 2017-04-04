@@ -13,7 +13,7 @@
         <!--Login View Controller-->
         <scene sceneID="fpk-gw-jyz">
             <objects>
-                <viewController storyboardIdentifier="LoginViewController" id="w63-vN-1z9" customClass="LoginViewController" customModule="Danger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="w63-vN-1z9" customClass="LoginViewController" customModule="ITravels" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vSe-Md-JDF"/>
                         <viewControllerLayoutGuide type="bottom" id="djE-A2-3cL"/>
@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackgroundMainPage" translatesAutoresizingMaskIntoConstraints="NO" id="lde-LH-X5K">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoginBackground" translatesAutoresizingMaskIntoConstraints="NO" id="lde-LH-X5K">
                                 <rect key="frame" x="0.0" y="-2" width="377" height="669"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Y4L-Hf-8qs">
@@ -72,11 +72,9 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="uOP-XT-ZOu">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="33"/>
                                         <subviews>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cep-et-ShB">
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cep-et-ShB">
                                                 <rect key="frame" x="0.0" y="0.0" width="134" height="33"/>
-                                                <color key="backgroundColor" red="0.93327325579999998" green="0.5202530622" blue="0.44298776979999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                                <state key="normal" title="Cancel">
+                                                <state key="normal" image="CancelButton">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -89,11 +87,9 @@
                                                     <action selector="cancelButtonTapped:" destination="w63-vN-1z9" eventType="touchUpInside" id="HwD-sq-cDc"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="og9-py-CPg">
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="og9-py-CPg">
                                                 <rect key="frame" x="166" y="0.0" width="134" height="33"/>
-                                                <color key="backgroundColor" red="0.93327325579999998" green="0.5202530622" blue="0.44298776979999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                                <state key="normal" title="Submit">
+                                                <state key="normal" image="SubmitButton">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -150,7 +146,7 @@
         <!--User Setting View Controller-->
         <scene sceneID="Fhc-Zd-Nyg">
             <objects>
-                <viewController storyboardIdentifier="UserSettingViewController" id="fGn-IP-BRy" customClass="UserSettingViewController" customModule="Danger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UserSettingViewController" id="fGn-IP-BRy" customClass="UserSettingViewController" customModule="ITravels" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="do8-Wi-O82"/>
                         <viewControllerLayoutGuide type="bottom" id="VtJ-ak-UBK"/>
@@ -159,9 +155,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="BackgroundMainPage" translatesAutoresizingMaskIntoConstraints="NO" id="XU8-X4-ZzD">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackGround" translatesAutoresizingMaskIntoConstraints="NO" id="XU8-X4-ZzD">
                                 <rect key="frame" x="0.0" y="-2" width="377" height="669"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CNu-3j-LyD">
                                 <rect key="frame" x="0.0" y="184" width="375" height="483"/>
@@ -175,11 +170,11 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="y3p-SX-eh7" id="b0r-aX-DWp">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RLD-4l-CHr">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -234,7 +229,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZUR-kT-Zec">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="20%" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZUR-kT-Zec">
                                         <rect key="frame" x="177" y="0.0" width="146" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -242,14 +237,12 @@
                                     </textField>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0eI-Es-arO">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0eI-Es-arO">
                                 <rect key="frame" x="239" y="136" width="110" height="40"/>
-                                <color key="backgroundColor" red="0.93327325579999998" green="0.5202530622" blue="0.44298776979999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="O0T-DO-xy9"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                <state key="normal" title="Update">
+                                <state key="normal" title="Update" image="Button">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -268,11 +261,14 @@
                         <constraints>
                             <constraint firstItem="CNu-3j-LyD" firstAttribute="top" secondItem="0eI-Es-arO" secondAttribute="bottom" constant="8" id="1cS-IQ-bnL"/>
                             <constraint firstItem="m6R-9A-8M3" firstAttribute="centerX" secondItem="D1Y-RV-yhl" secondAttribute="centerX" id="1pP-Eo-I8g"/>
+                            <constraint firstAttribute="trailing" secondItem="XU8-X4-ZzD" secondAttribute="trailing" constant="-2" id="3W0-D3-b1M"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hdi-T0-u1u" secondAttribute="trailing" constant="10" id="6Gm-Ao-Faq"/>
                             <constraint firstItem="XXc-nK-tUW" firstAttribute="leading" secondItem="D1Y-RV-yhl" secondAttribute="leadingMargin" constant="10" id="8ip-ff-UaO"/>
+                            <constraint firstItem="XU8-X4-ZzD" firstAttribute="leading" secondItem="D1Y-RV-yhl" secondAttribute="leading" id="Ds6-km-ZRw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="XXc-nK-tUW" secondAttribute="trailing" constant="10" id="Hdd-Lf-z0R"/>
-                            <constraint firstItem="XXc-nK-tUW" firstAttribute="top" secondItem="do8-Wi-O82" secondAttribute="bottom" constant="10" id="QYO-gg-z39"/>
+                            <constraint firstItem="VtJ-ak-UBK" firstAttribute="top" secondItem="XU8-X4-ZzD" secondAttribute="bottom" id="Rzq-Mf-ggI"/>
                             <constraint firstAttribute="trailing" secondItem="CNu-3j-LyD" secondAttribute="trailing" id="VWJ-wh-gd5"/>
+                            <constraint firstItem="XU8-X4-ZzD" firstAttribute="top" secondItem="D1Y-RV-yhl" secondAttribute="top" constant="-2" id="XFS-0C-82B"/>
                             <constraint firstItem="m6R-9A-8M3" firstAttribute="leading" secondItem="D1Y-RV-yhl" secondAttribute="leadingMargin" constant="10" id="Z4I-lh-xfj"/>
                             <constraint firstItem="VtJ-ak-UBK" firstAttribute="top" secondItem="CNu-3j-LyD" secondAttribute="bottom" id="cAz-hh-p7N"/>
                             <constraint firstItem="0eI-Es-arO" firstAttribute="top" secondItem="hdi-T0-u1u" secondAttribute="bottom" constant="8" id="eBX-hL-Wnj"/>
@@ -301,7 +297,7 @@
         <!--Main View Controller-->
         <scene sceneID="1W7-Ou-Kqp">
             <objects>
-                <viewController storyboardIdentifier="MainViewController" id="G4Z-7L-ZBV" customClass="MainViewController" customModule="Danger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="G4Z-7L-ZBV" customClass="MainViewController" customModule="ITravels" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rIH-3M-qd6"/>
                         <viewControllerLayoutGuide type="bottom" id="WOI-4W-1Cs"/>
@@ -310,7 +306,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackgroundMainPage" translatesAutoresizingMaskIntoConstraints="NO" id="vGi-b4-zuE">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NotAUser" translatesAutoresizingMaskIntoConstraints="NO" id="vGi-b4-zuE">
                                 <rect key="frame" x="0.0" y="-2" width="377" height="669"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Location..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKm-Yw-8wr">
@@ -322,14 +318,12 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BIg-s1-KH8">
-                                <rect key="frame" x="110" y="524" width="155" height="40"/>
-                                <color key="backgroundColor" red="0.93327325582504272" green="0.52025306224822998" blue="0.44298776984214783" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BIg-s1-KH8">
+                                <rect key="frame" x="71" y="524" width="233" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="dUp-uZ-RUc"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                <state key="normal" title="TRAVELERS">
+                                <state key="normal" image="TravelChart">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -367,9 +361,9 @@
                             <constraint firstItem="vGi-b4-zuE" firstAttribute="top" secondItem="o4P-Vm-RW7" secondAttribute="top" constant="-2" id="8Ob-79-mik"/>
                             <constraint firstItem="BKm-Yw-8wr" firstAttribute="leading" secondItem="o4P-Vm-RW7" secondAttribute="leadingMargin" constant="14" id="EnX-Ps-A58"/>
                             <constraint firstItem="WOI-4W-1Cs" firstAttribute="top" secondItem="BIg-s1-KH8" secondAttribute="bottom" constant="103" id="IZs-av-4n1"/>
-                            <constraint firstItem="BIg-s1-KH8" firstAttribute="leading" secondItem="o4P-Vm-RW7" secondAttribute="leadingMargin" constant="94" id="QG7-Um-Bab"/>
+                            <constraint firstItem="BIg-s1-KH8" firstAttribute="leading" secondItem="o4P-Vm-RW7" secondAttribute="leadingMargin" constant="55" id="QG7-Um-Bab"/>
                             <constraint firstItem="BD2-xu-fPL" firstAttribute="centerY" secondItem="o4P-Vm-RW7" secondAttribute="centerY" id="TbK-YG-GgH"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="BIg-s1-KH8" secondAttribute="trailing" constant="94" id="bxE-mD-CiO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BIg-s1-KH8" secondAttribute="trailing" constant="55" id="bxE-mD-CiO"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BKm-Yw-8wr" secondAttribute="trailing" constant="14" id="g0s-ri-jpY"/>
                             <constraint firstAttribute="trailing" secondItem="vGi-b4-zuE" secondAttribute="trailing" constant="-2" id="ijm-9l-NoJ"/>
                             <constraint firstItem="vGi-b4-zuE" firstAttribute="leading" secondItem="o4P-Vm-RW7" secondAttribute="leading" id="jFx-fR-baw"/>
@@ -377,6 +371,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backgroundImage" destination="vGi-b4-zuE" id="yGL-In-ovR"/>
                         <outlet property="cityLabel" destination="BKm-Yw-8wr" id="uod-Ou-DDl"/>
                         <outlet property="percentLabel" destination="H5B-Ce-wgF" id="hGh-O1-N4U"/>
                     </connections>
@@ -388,7 +383,7 @@
         <!--Detail View Controller-->
         <scene sceneID="P5x-Jn-sQT">
             <objects>
-                <viewController storyboardIdentifier="DetailViewController" id="0Za-nD-Kwa" customClass="DetailViewController" customModule="Danger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" id="0Za-nD-Kwa" customClass="DetailViewController" customModule="ITravels" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="r98-oR-IZP"/>
                         <viewControllerLayoutGuide type="bottom" id="Ssl-dq-Iia"/>
@@ -397,7 +392,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackgroundMainPage" translatesAutoresizingMaskIntoConstraints="NO" id="FYc-4C-Av6">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackGround" translatesAutoresizingMaskIntoConstraints="NO" id="FYc-4C-Av6">
                                 <rect key="frame" x="0.0" y="-2" width="377" height="669"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m3D-vw-MH3">
@@ -479,7 +474,7 @@
         <!--Travel Log View Controller-->
         <scene sceneID="uXh-2I-SPX">
             <objects>
-                <viewController storyboardIdentifier="TravelLogViewController" id="5uB-fc-s9P" customClass="TravelLogViewController" customModule="Danger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TravelLogViewController" id="5uB-fc-s9P" customClass="TravelLogViewController" customModule="ITravels" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Yaq-Sz-5sm"/>
                         <viewControllerLayoutGuide type="bottom" id="0S4-cD-St8"/>
@@ -488,11 +483,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackgroundMainPage" translatesAutoresizingMaskIntoConstraints="NO" id="40N-7t-Hzt">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackGround" translatesAutoresizingMaskIntoConstraints="NO" id="40N-7t-Hzt">
                                 <rect key="frame" x="0.0" y="-2" width="377" height="669"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TRAVELERS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dy9-0Z-lim">
-                                <rect key="frame" x="157" y="28" width="92" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Travel Chart" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dy9-0Z-lim">
+                                <rect key="frame" x="155" y="28" width="94" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="rBD-MB-5us"/>
                                 </constraints>
@@ -500,14 +495,12 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mt1-Hq-CTj">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mt1-Hq-CTj">
                                 <rect key="frame" x="24" y="22" width="55" height="33"/>
-                                <color key="backgroundColor" red="0.93327325579999998" green="0.5202530622" blue="0.44298776979999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="55" id="fh8-Nb-nDy"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                <state key="normal" title="Back">
+                                <state key="normal" image="Back">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -563,7 +556,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="HqN-Rw-sx3"/>
                                 </constraints>
-                                <state key="normal" image="QuestionMark"/>
+                                <state key="normal" image="?"/>
                                 <connections>
                                     <action selector="questionButtonTapped:" destination="5uB-fc-s9P" eventType="touchUpInside" id="PAN-LC-x9f"/>
                                 </connections>
@@ -600,7 +593,7 @@
         <!--Loading View Controller-->
         <scene sceneID="yDJ-xi-PN8">
             <objects>
-                <viewController storyboardIdentifier="LoadingViewController" id="dKn-4D-bck" customClass="LoadingViewController" customModule="Danger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoadingViewController" id="dKn-4D-bck" customClass="LoadingViewController" customModule="ITravels" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ZaX-dr-jSf"/>
                         <viewControllerLayoutGuide type="bottom" id="qCT-Wk-IIu"/>
@@ -609,24 +602,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Rick" translatesAutoresizingMaskIntoConstraints="NO" id="ZdS-9H-GJd">
-                                <rect key="frame" x="55" y="156" width="264" height="228"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="228" id="lnm-R4-pd6"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Group" translatesAutoresizingMaskIntoConstraints="NO" id="BGi-ru-Oi7">
+                                <rect key="frame" x="126" y="208" width="123" height="129"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gitSWIFTY" translatesAutoresizingMaskIntoConstraints="NO" id="Kqp-Gz-yLm">
-                                <rect key="frame" x="31.5" y="402" width="312" height="49"/>
-                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ITravels" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sG2-Ci-bGL">
+                                <rect key="frame" x="125" y="340" width="125" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ZdS-9H-GJd" firstAttribute="top" secondItem="ZaX-dr-jSf" secondAttribute="bottom" constant="136" id="OhW-z1-OPs"/>
-                            <constraint firstItem="Kqp-Gz-yLm" firstAttribute="centerX" secondItem="Ayy-OX-sMx" secondAttribute="centerX" id="TEt-ra-BLG"/>
-                            <constraint firstItem="ZdS-9H-GJd" firstAttribute="leading" secondItem="Ayy-OX-sMx" secondAttribute="leadingMargin" constant="39" id="Z9k-Vo-2dq"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="ZdS-9H-GJd" secondAttribute="trailing" constant="40" id="ffP-DX-Ud3"/>
-                            <constraint firstItem="qCT-Wk-IIu" firstAttribute="top" secondItem="Kqp-Gz-yLm" secondAttribute="bottom" constant="216" id="lbo-tt-pj9"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wex-DR-bDW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -636,16 +624,22 @@
         <!--Page View Controller-->
         <scene sceneID="XJG-xy-1bl">
             <objects>
-                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="8Qh-fM-Qbb" customClass="PageViewController" customModule="Danger" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="8Qh-fM-Qbb" customClass="PageViewController" customModule="ITravels" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dOy-63-fOH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="113" y="-240"/>
         </scene>
     </scenes>
     <resources>
-        <image name="BackgroundMainPage" width="750" height="1334"/>
-        <image name="QuestionMark" width="104" height="144"/>
-        <image name="Rick" width="564" height="566"/>
-        <image name="gitSWIFTY" width="312" height="49"/>
+        <image name="?" width="20" height="36"/>
+        <image name="Back" width="65" height="41"/>
+        <image name="BackGround" width="375" height="667"/>
+        <image name="Button" width="116" height="42"/>
+        <image name="CancelButton" width="116" height="42"/>
+        <image name="Group" width="83" height="119"/>
+        <image name="LoginBackground" width="375" height="667"/>
+        <image name="NotAUser" width="375" height="667"/>
+        <image name="SubmitButton" width="116" height="42"/>
+        <image name="TravelChart" width="255" height="44"/>
     </resources>
 </document>

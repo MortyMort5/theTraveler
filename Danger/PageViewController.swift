@@ -1,6 +1,6 @@
 //
 //  PageViewController.swift
-//  Danger
+//  ITravels
 //
 //  Created by Sterling Mortensen on 3/13/17.
 //  Copyright © 2017 Sterling Mortensen. All rights reserved.

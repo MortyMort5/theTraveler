@@ -1,6 +1,6 @@
 //
 //  UserController.swift
-//  Danger
+//  ITravels
 //
 //  Created by Sterling Mortensen on 3/14/17.
 //  Copyright © 2017 Sterling Mortensen. All rights reserved.
@@ -28,6 +28,7 @@ class UserController {
     var loggedInUser: User? {
         didSet {
             DispatchQueue.main.async {
+                CrimeRateController.shared.currentUser = self.loggedInUser
                 NotificationCenter.default.post(name: self.UserIsLoggedIn, object: self)
             }
         }
@@ -180,28 +181,19 @@ class UserController {
     //==============================================================
     // MARK: - Modify record in CloudKit
     //==============================================================
-    func addToUserRecord(warningPercent: Int, completion: @escaping() -> Void) {
-        loggedInUser?.warningPercent = warningPercent
-        guard let user = loggedInUser else { completion(); return }
-        let record = CKRecord(user: user)
-        let modifyOperation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
-        modifyOperation.completionBlock = {
-            completion()
-        }
-        modifyOperation.savePolicy = .changedKeys
-        publicDB.add(modifyOperation)
-    }
     
-    func updateUserRecord(username: String, email: String, completion: @escaping(Bool) -> Void) {
+    func updateUserRecord(username: String, email: String, warningPercent: Int, completion: @escaping(Bool) -> Void) {
         checkUserNameforDoubles(username: username) { (bool) in
-            if (bool) {
-                print("Username is Taken already")
-                completion(true)
-                return
+            if username != self.loggedInUser?.username {
+                if (bool) {
+                    print("Username is Taken already")
+                    completion(true)
+                    return
+                }
             }
-            
             self.loggedInUser?.username = username
             self.loggedInUser?.email = email
+            self.loggedInUser?.warningPercent = warningPercent
             guard let user = self.loggedInUser else { completion(false); return }
             let record = CKRecord(user: user)
             let modifyOperation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
@@ -223,35 +215,7 @@ class UserController {
         }
         modifyOperation.savePolicy = .changedKeys
         publicDB.add(modifyOperation)
-    }
-    
-    //==============================================================
-    // MARK: - Subscription FUNCTION
-    //==============================================================
-    func subscriptionNotification() {
-        guard let user = loggedInUser else { return }
-        self.subscribeToHighDangerLevel(crimeRate: user.crimeRate[0], user: user, completion: { (error) in
-            if let error = error { print("Error with subsribing: \(error.localizedDescription)"); return  }
-        })
-    }
-    
-    func subscribeToHighDangerLevel(crimeRate: CrimeRate, user: User, completion: @escaping(Error?) -> Void) {
-        guard let recordID = crimeRate.cloudKitRecordID, let warningPercent = user.warningPercent else { print("Error with urwrapping users recordID or users warning percent"); completion(nil); return }
-        let matchingRecordIDPredicate = NSPredicate(format: "RecordID == %@", recordID)
-        let warningPercentPredicate = NSPredicate(format: "crime_rate >= %@ ", warningPercent)
-        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [matchingRecordIDPredicate, warningPercentPredicate])
-        let subscription = CKQuerySubscription(recordType: "CrimeRate", predicate: compoundPredicate, options: .firesOnRecordUpdate)
-        let notificationInfo = CKNotificationInfo()
-        notificationInfo.alertBody = "Your percent of dying right now is \(user.crimeRate[0].warningPercent)."
-        subscription.notificationInfo = notificationInfo
-        publicDB.save(subscription) { (subscription, error) in
-            if let error = error {
-                NSLog("Error with saving subscription. Error: \(error.localizedDescription)")
-                completion(nil)
-            }
-            completion(error)
-        }
-    }
+    }    
 }
 
 
