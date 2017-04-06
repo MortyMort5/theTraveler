@@ -12,7 +12,11 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.rowHeight = 25.0
         self.fetchAllUsers()
+        var screenEdgeRecognizer: UIPanGestureRecognizer
+        screenEdgeRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeToGoBack))
+        view.addGestureRecognizer(screenEdgeRecognizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,10 +32,6 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
     //==============================================================
     // MARK: - IBActions
     //==============================================================
-    @IBAction func backButtonTapped(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     @IBAction func questionButtonTapped(_ sender: Any) {
         travelerInfoAlert()
     }
@@ -44,6 +44,10 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
     //==============================================================
     // MARK: - Helper Functions
     //==============================================================
+    func swipeToGoBack() {
+        dismiss(animated: true, completion: nil)
+    }
+    
     func fetchAllUsers() {
         UserController.shared.fetchAllUserData { (users) in
             if users.count == 0 {
@@ -73,9 +77,10 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
     //==============================================================
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.textColor = UIColor.black
+        label.textColor = UIColor.white
         label.text = "- Users & State Count -"
-        label.backgroundColor = UIColor(red: 250.0/255, green: 232.0/255, blue: 124.0/255, alpha: 1.0)
+        label.backgroundColor = UIColor.clear
+        label.layer.opacity = 0.7
         label.textAlignment = .center
         return label
     }

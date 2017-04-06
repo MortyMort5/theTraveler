@@ -21,6 +21,7 @@ class CrimeRateController {
     var largerWarningPercent: Int = 0
     var savedCrimeRate: CrimeRate?
     var currentUser: User?
+    var curLocation: String?
     var warningPercentComparison: Int = 1000
     static let shared = CrimeRateController()
     var warningPercent: Int = 0
@@ -75,16 +76,12 @@ class CrimeRateController {
     func warningPercentAlgarythm() {
         var percent = 0.0
         var total = 0.0
-        var temp = 0.0
         let ratesAsString = crimeRates.flatMap({ $0.rate })
         let rates = ratesAsString.flatMap({ Double($0) })
         for rate in rates {
-            if rate != 0 {
-                total += rate * 10000.0
-            }
+            total += rate * 10000.0
         }
-        temp = total / 11
-        let final = 100 / temp
+        let final = total / 100
         percent = round(final)
         if percent > 0.0 && percent < 100.0 {
             self.warningPercent = Int(percent)
@@ -158,7 +155,7 @@ class CrimeRateController {
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [matchingRecordIDPredicate, warningPercentPredicate])
         let subscription = CKQuerySubscription(recordType: "CrimeRate", predicate: compoundPredicate, options: .firesOnRecordUpdate)
         let notificationInfo = CKNotificationInfo()
-        notificationInfo.alertBody = "Your chance of dying is super freaking high. I would probably go home. \(self.warningPercent)"
+        notificationInfo.alertBody = "Your danger level is at: \(self.warningPercent)"
         subscription.notificationInfo = notificationInfo
         publicDB.save(subscription) { (subscription, error) in
             if let error = error {

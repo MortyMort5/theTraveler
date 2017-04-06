@@ -9,21 +9,20 @@
 import UIKit
 import CoreLocation
 import MapKit
+import UserNotifications
 
 class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateViewOnButtonAndLabel()
         currentUser = UserController.shared.loggedInUser
-        switchBackgroundImageForUser()
         findLocation()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         currentUser = UserController.shared.loggedInUser
-        switchBackgroundImageForUser()
         if currentUser != nil {
             travelersInfoAlert()
         }
@@ -32,12 +31,13 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     //==============================================================
     // MARK: - Properties
     //==============================================================
+    static var shared = MainViewController()
     var locationManager: CLLocationManager = CLLocationManager()
     var geoCoder = CLGeocoder()
     var currentUser: User?
     var locationCount = 0
     let hour: TimeInterval = 3600
-    static let shared = MainViewController()
+    var curLocationCityAndState: String?
     weak var mapView: MKMapView?
     var TravelersInfoAlertProperty:Bool {
         return UserDefaults.standard.bool(forKey: "TravelersInfoAlertProperty")
@@ -49,6 +49,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var percentLabel: UILabel!
     @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var travelChartButton: UIButton!
     
     //==============================================================
     // MARK: - IBActions
@@ -66,18 +67,28 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     //==============================================================
     // MARK: - Helper Functions
     //==============================================================
+    func updateViewOnButtonAndLabel() {
+        let circleView = UIView()
+        circleView.center = self.view.center
+        circleView.bounds = CGRect(x: 0.0, y: 0.0, width: 250.0, height: 250.0)
+        circleView.layer.cornerRadius = 250.0 / 2
+        circleView.layer.borderWidth = 1
+        circleView.layer.opacity = 0.3
+        circleView.layer.backgroundColor = UIColor.clear.cgColor
+        circleView.layer.borderColor = UIColor.white.cgColor
+        view.addSubview(circleView)
+        
+        let borderAlpha : CGFloat = 0.3
+        self.travelChartButton.layer.cornerRadius = 5
+        self.travelChartButton.layer.borderWidth = 1
+        self.travelChartButton.layer.borderColor = UIColor(white: 1.0, alpha: borderAlpha).cgColor
+    }
+    
     func findLocation() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.requestLocation()
-    }
-    
-    func switchBackgroundImageForUser() {
-        if currentUser != nil {
-            let background = UIImageView(image: #imageLiteral(resourceName: "User"))
-            self.backgroundImage.image = background.image
-        }
+        locationManager.requestAlwaysAuthorization()
     }
     
     func regionMonitoring(lat: Double, long: Double) {
@@ -96,6 +107,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
                 let pm = placemarksArr[0] as CLPlacemark
                 guard let city = pm.locality, let state = pm.administrativeArea else { return }
                 self.cityLabel.text = "\(city), \(state)"
+                CrimeRateController.shared.curLocation = "\(city), \(state)"
                 guard let fullNameState = States.states[state] else { return }
                 self.checkAndAddState(state: fullNameState)
                 self.fetchCrimeData(city: city, state: fullNameState)
@@ -148,10 +160,8 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        
         // Not Determined
         if status.hashValue == 0 {
-            print("Not yet Determined Access")
         }
         
         // Restricted
@@ -167,6 +177,8 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         // Always allow
         if status.hashValue == 3 {
             print("Always allowed access")
+            self.locationManager.requestLocation()
+            self.requestNotificationAuthorization()
         }
     }
     
@@ -197,7 +209,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     func travelersInfoAlert() {
         if TravelersInfoAlertProperty == false {
-            let alert = UIAlertController(title: "The TRAVELERS button!", message: "Will show all the users and the count of how many states they have traveled to this month. The user with the most at the end of the month gets a prize", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "You have Access to:", message: "The Travel Chart button below. User that travels to the most states in a month get's a prize", preferredStyle: UIAlertControllerStyle.alert)
             let dismissAction = UIAlertAction(title: "Got it!", style: .cancel, handler: { (_) in
                 UserDefaults.standard.set(true, forKey: "TravelersInfoAlertProperty")
             })
@@ -206,14 +218,16 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func alwaysTrackCurrLocatinAlert() {
-        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedAlways {
-            self.locationManager.requestAlwaysAuthorization()
+    func requestNotificationAuthorization() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (_, error) in
+            if let error = error {
+                print("Notification authorization failed, or was denied \(error.localizedDescription)")
+            } else {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
         }
     }
 }
-
-
 
 
 

@@ -12,8 +12,10 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateViews()
         crimeStatsTableView.delegate = self
         crimeStatsTableView.dataSource = self
+        self.crimeStatsTableView.rowHeight = 35.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,14 +32,24 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     // MARK: - IBOutlets
     //==============================================================
     @IBOutlet weak var crimeStatsTableView: UITableView!
+    @IBOutlet weak var cityAndStateLabel: UILabel!
+    
+    //==============================================================
+    // MARK: - Helper Functions
+    //==============================================================
+    func updateViews() {
+        guard let curLocation = CrimeRateController.shared.curLocation else { return }
+        self.cityAndStateLabel.text = "for \(curLocation)"
+    }
     
     //==============================================================
     // MARK: - Data Source Functions
     //==============================================================
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.textColor = UIColor.black
-        label.backgroundColor = UIColor(red: 250.0/255, green: 232.0/255, blue: 124.0/255, alpha: 1.0)
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.clear
+        label.layer.opacity = 0.3
         label.text = "- Crime Type & Crime Count -"
         label.textAlignment = .center
         return label

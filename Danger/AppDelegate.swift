@@ -14,33 +14,16 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    static var shared = AppDelegate()
-    var registeredForRemoteNotifications:Bool {
-        return UserDefaults.standard.bool(forKey: "registeredForRemoteNotifications")
-    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        sleep(2)
-
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (_, error) in
-            if let error = error {
-                print("Notification authorization failed, or was denied \(error.localizedDescription)")
-            } else {
-                UIApplication.shared.registerForRemoteNotifications()
-            }
-        }
-        
         return true
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        MainViewController.shared.alwaysTrackCurrLocatinAlert()
-        UserDefaults.standard.set(true, forKey: "registeredForRemoteNotifications")
+        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-         UserDefaults.standard.set(false, forKey: "registeredForRemoteNotifications")
         NSLog("Error registering for remote notifications: \(error)")
     }
     

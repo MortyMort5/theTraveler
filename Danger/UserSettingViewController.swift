@@ -14,7 +14,9 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
         super.viewDidLoad()
         userStatesTableView.delegate = self
         userStatesTableView.dataSource = self
+        self.userStatesTableView.rowHeight = 25.0
         self.updateViews()
+        updateViewOnButtons()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,6 +47,7 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var warningPercentTextField: UITextField!
+    @IBOutlet weak var updateButton: UIButton!
     
     //==============================================================
     // MARK: - IBActions
@@ -69,13 +72,11 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
             DispatchQueue.main.async {
                 self.timerToStopUpdating()
                 self.updateViews()
-                if AppDelegate.shared.registeredForRemoteNotifications == true {
-                    CrimeRateController.shared.subscribeToHighDangerLevel(completion: { (error) in
-                        if error != nil {
-                            print("Error with the subscription")
-                        }
-                    })
-                }
+                CrimeRateController.shared.subscribeToHighDangerLevel(completion: { (error) in
+                    if error != nil {
+                        print("Error with the subscription")
+                    }
+                })
             }
         }
     }
@@ -83,6 +84,20 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     //==============================================================
     // MARK: - Helper Functions
     //==============================================================
+    func updateViews() {
+        DispatchQueue.main.async {
+            self.usernameTextField.text = self.currentUser?.username
+            self.emailTextField.text = self.currentUser?.email
+            self.warningPercentTextField.text = "\(self.currentUser?.warningPercent ?? 0)%"
+        }
+    }
+    
+    func updateViewOnButtons() {
+        self.updateButton.layer.cornerRadius = 5
+        self.updateButton.layer.borderWidth = 1
+        self.updateButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+    }
+    
     func timerToStopUpdating() {
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(UserSettingViewController.stopUpdating), userInfo: nil, repeats: false)
     }
@@ -92,11 +107,16 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func validateInt(warningString: String) {
-        var strArr = warningString.characters.map{ String($0) }
-        let _ = strArr.removeLast()
-        let joinedInt = strArr.joined(separator: "")
-        guard let warningPercentOptional = Int(joinedInt) else { self.stopUpdating(); return }
-        warningPercent = warningPercentOptional
+        if warningString.contains("%") {
+            var strArr = warningString.characters.map{ String($0) }
+            let _ = strArr.removeLast()
+            let joinedInt = strArr.joined(separator: "")
+            guard let warningPercentOptional = Int(joinedInt) else { self.stopUpdating(); return }
+            warningPercent = warningPercentOptional
+        } else {
+            guard let warningPercentOptional = Int(warningString) else { self.stopUpdating(); return }
+            warningPercent = warningPercentOptional
+        }
     }
     
     //==============================================================
@@ -105,8 +125,9 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let username = currentUser?.username else { return UILabel() }
         let label = UILabel()
-        label.textColor = UIColor.black
-        label.backgroundColor = UIColor(red: 250.0/255, green: 232.0/255, blue: 124.0/255, alpha: 1.0)
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.clear
+        label.layer.opacity = 0.3
         label.text = "- States \(username) has Visited -"
         label.textAlignment = .center
         return label
@@ -129,17 +150,6 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     //==============================================================
-    // MARK: - Update Views
-    //==============================================================
-    func updateViews() {
-        DispatchQueue.main.async {
-            self.usernameTextField.text = self.currentUser?.username
-            self.emailTextField.text = self.currentUser?.email
-            self.warningPercentTextField.text = "\(self.currentUser?.warningPercent ?? 0)%"
-        }
-    }
-    
-    //==============================================================
     // MARK: - AlertController
     //==============================================================
     func usernameTakenAlert() {
@@ -158,7 +168,7 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     
     func warningPercentInfoAlert() {
         if warningPercentInfo == false {
-            let alert = UIAlertController(title: "This is your profile", message: "Enter a percent in the Warning Percent text field and you will be warned whenever you enter an area that has crime percent higher that what you set here.", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "This is your profile", message: "Enter a percent in the Warning Percent text field and you will be warned whenever you enter an area that has a crime percent higher than what you set here.", preferredStyle: UIAlertControllerStyle.alert)
             let dismissAction = UIAlertAction(title: "Got it!", style: .cancel, handler: { (_) in
                 UserDefaults.standard.set(true, forKey: "warningPercentInfo")
             })

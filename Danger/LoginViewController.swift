@@ -12,6 +12,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateViewOnButtons()
     }
     
     //==============================================================
@@ -51,6 +52,19 @@ class LoginViewController: UIViewController {
                 self.loadingIndicator.stopAnimating()
             }
         }
+    }
+    
+    //==============================================================
+    // MARK: - Helper Functions
+    //==============================================================
+    func updateViewOnButtons() {
+        self.submitButton.layer.cornerRadius = 5
+        self.submitButton.layer.borderWidth = 1
+        self.submitButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+        
+        self.cancelButton.layer.cornerRadius = 5
+        self.cancelButton.layer.borderWidth = 1
+        self.cancelButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
     }
     
     //==============================================================
