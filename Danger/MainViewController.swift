@@ -134,7 +134,13 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
                 print("Error with fetching Crime Data")
             }
             DispatchQueue.main.async {
-                self.percentLabel.text = "\(CrimeRateController.shared.warningPercent)%"
+                let percent = CrimeRateController.shared.warningPercent
+                if percent != 0 {
+                    self.percentLabel.text = "\(percent)%"
+                } else {
+                    self.percentLabel.text = "NO CRIME"
+                }
+                
             }
         }
     }

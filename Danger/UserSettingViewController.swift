@@ -144,6 +144,11 @@ class UserSettingViewController: UIViewController, UITableViewDataSource, UITabl
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userStateCell", for: indexPath)
+        if indexPath.row % 2 == 0 {
+            cell.backgroundColor = UIColor(white: 1.0, alpha: 0.04)
+        } else {
+            cell.backgroundColor = UIColor.clear
+        }
         guard let states = currentUser?.states[indexPath.row] else { return cell }
         cell.textLabel?.text = states
         return cell

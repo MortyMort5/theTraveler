@@ -55,6 +55,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         return label
     }
     
+    
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "label"
     }
@@ -65,12 +67,35 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "crimeDetailCell", for: indexPath)
+        
+        if indexPath.row % 2 == 0 {
+            cell.backgroundColor = UIColor(white: 1.0, alpha: 0.04)
+        } else {
+            cell.backgroundColor = UIColor.clear
+        }
+        
         let crimeRate = CrimeRateController.shared.crimeRates[indexPath.row]
         cell.textLabel?.text = crimeRate.type
         cell.detailTextLabel?.text = crimeRate.count
         return cell
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

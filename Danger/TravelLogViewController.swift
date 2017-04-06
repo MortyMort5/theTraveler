@@ -95,6 +95,11 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "travelLogCell", for: indexPath)
+        if indexPath.row % 2 == 0 {
+            cell.backgroundColor = UIColor(white: 1.0, alpha: 0.04)
+        } else {
+            cell.backgroundColor = UIColor.clear
+        }
                 let user = users[indexPath.row]
                 cell.textLabel?.text = user.username
                 cell.detailTextLabel?.text = "\(user.states.count)"
