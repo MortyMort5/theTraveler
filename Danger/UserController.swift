@@ -63,15 +63,12 @@ class UserController {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "User", predicate: predicate)
         publicDB.perform(query, inZoneWith: nil) { (records, error) in
-            
             if let error = error { print("Error: There was an error fetching user's data from cloudKit. Error: \(error.localizedDescription)"); completion([]); return }
-            
             guard let records = records else { print("Error: Records is nil, nothing was fetched. "); completion([]); return }
-            
             let users = records.flatMap({ User(record: $0) })
-            self.users = users
-            
-            completion(users)
+            let sortedUsers = users.sorted(by: { $0.states.count > $1.states.count })
+            self.users = sortedUsers
+            completion(sortedUsers)
         }
     }
     

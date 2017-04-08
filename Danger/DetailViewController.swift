@@ -73,7 +73,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             cell.backgroundColor = UIColor.clear
         }
-        
+        cell.textLabel?.numberOfLines = 0
+        cell.frame.size.width = 100
         let crimeRate = CrimeRateController.shared.crimeRates[indexPath.row]
         cell.textLabel?.text = crimeRate.type
         cell.detailTextLabel?.text = crimeRate.count

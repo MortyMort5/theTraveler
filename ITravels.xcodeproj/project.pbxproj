@@ -13,6 +13,9 @@
 		81AFAB311E7B30DA0006A812 /* Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFAB301E7B30DA0006A812 /* Help.swift */; };
 		81B074AD1E7C4F8900AE3510 /* TravelLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */; };
 		81B3DE451E770ECD00B8CED3 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B3DE441E770ECD00B8CED3 /* DetailViewController.swift */; };
+		81BC8C7C1E96E28000140821 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC8C7B1E96E28000140821 /* SearchViewController.swift */; };
+		81BC8C7E1E97FF7000140821 /* SearchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC8C7D1E97FF7000140821 /* SearchDetailViewController.swift */; };
+		81BC8C801E97FF8E00140821 /* SearchPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC8C7F1E97FF8E00140821 /* SearchPageViewController.swift */; };
 		81BD9CE01E8AC99700153C67 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BD9CDF1E8AC99700153C67 /* MapKit.framework */; };
 		81BD9CE21E8AC9A600153C67 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BD9CE11E8AC9A600153C67 /* CoreLocation.framework */; };
 		81BD9D071E8B52C100153C67 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BD9D061E8B52C100153C67 /* LoadingIndicatorView.swift */; };
@@ -37,6 +40,9 @@
 		81AFAB301E7B30DA0006A812 /* Help.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Help.swift; sourceTree = "<group>"; };
 		81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelLogViewController.swift; sourceTree = "<group>"; };
 		81B3DE441E770ECD00B8CED3 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		81BC8C7B1E96E28000140821 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		81BC8C7D1E97FF7000140821 /* SearchDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDetailViewController.swift; sourceTree = "<group>"; };
+		81BC8C7F1E97FF8E00140821 /* SearchPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPageViewController.swift; sourceTree = "<group>"; };
 		81BD9CDF1E8AC99700153C67 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		81BD9CE11E8AC9A600153C67 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		81BD9D061E8B52C100153C67 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -144,6 +150,9 @@
 				81CC07041E71092D00B8AE1D /* MainViewController.swift */,
 				81B3DE441E770ECD00B8CED3 /* DetailViewController.swift */,
 				81B074AC1E7C4F8900AE3510 /* TravelLogViewController.swift */,
+				81BC8C7F1E97FF8E00140821 /* SearchPageViewController.swift */,
+				81BC8C7B1E96E28000140821 /* SearchViewController.swift */,
+				81BC8C7D1E97FF7000140821 /* SearchDetailViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -280,6 +289,8 @@
 				81EAE6BB1E7769C200BD6B79 /* CrimeRateController.swift in Sources */,
 				81EAE6B91E7769AA00BD6B79 /* CrimeRate.swift in Sources */,
 				8162915E1E896AD00025FCE6 /* LoadingViewController.swift in Sources */,
+				81BC8C7C1E96E28000140821 /* SearchViewController.swift in Sources */,
+				81BC8C801E97FF8E00140821 /* SearchPageViewController.swift in Sources */,
 				81CC06ED1E71015D00B8AE1D /* AppDelegate.swift in Sources */,
 				81BD9D071E8B52C100153C67 /* LoadingIndicatorView.swift in Sources */,
 				81CC07051E71092D00B8AE1D /* MainViewController.swift in Sources */,
@@ -292,6 +303,7 @@
 				81EAE6C81E78890E00BD6B79 /* LoginViewController.swift in Sources */,
 				81B3DE451E770ECD00B8CED3 /* DetailViewController.swift in Sources */,
 				81EAE6CA1E788A6B00BD6B79 /* User.swift in Sources */,
+				81BC8C7E1E97FF7000140821 /* SearchDetailViewController.swift in Sources */,
 				812EA3761E9318D7001168F1 /* PageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

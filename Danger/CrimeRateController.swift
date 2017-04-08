@@ -22,9 +22,11 @@ class CrimeRateController {
     var savedCrimeRate: CrimeRate?
     var currentUser: User?
     var curLocation: String?
+    var searchedLocation: String?
     var warningPercentComparison: Int = 1000
     static let shared = CrimeRateController()
     var warningPercent: Int = 0
+    var searchedCrimeRate: [CrimeRate] = []
     var crimeRates: [CrimeRate] = [] {
         didSet {
             self.warningPercentAlgarythm()
@@ -49,24 +51,45 @@ class CrimeRateController {
     //==============================================================
     // MARK: - Fetches data from Crime API FUNCTION
     //==============================================================
-    func fetchCrimeData(byCurrentLocation location: String, completion: @escaping(Error?) -> Void) {
-        
+    func fetchCrimeData(byCurrentLocation location: String, completion: @escaping([CrimeRate]) -> Void) {
+        self.curLocation = location
         guard let url = baseURL else { fatalError("Error with unwrapping the baseURL") }
 
         let urlParameters = ["name": location, "$$app_token": token]
         
         NetworkController.performRequest(for: url, httpMethod: .Get, urlParameters: urlParameters, body: nil) { (data, error) in
             
-            if let error = error { print("Error with fetching data from url with error: \(error.localizedDescription)"); completion(error); return }
+            if let error = error { print("Error with fetching data from url with error: \(error.localizedDescription)"); completion([]); return }
             
             guard let data = data,
-                let responseStringData = String(data: data, encoding: .utf8) else { print("Error with converting data into a string"); completion(error); return }
+                let responseStringData = String(data: data, encoding: .utf8) else { print("Error with converting data into a string"); completion([]); return }
             
-            guard let array = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [[String: Any]] else { print("Error with serializing data \(responseStringData)"); completion(error); return }
+            guard let array = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [[String: Any]] else { print("Error with serializing data \(responseStringData)"); completion([]); return }
             
             let crimeRates = array.flatMap({ CrimeRate(dictionary: $0) })
             self.crimeRates = crimeRates
-            completion(nil)
+            completion(crimeRates)
+        }
+    }
+    
+    func searchedCrimeData(byCurrentLocation location: String, completion: @escaping([CrimeRate]) -> Void) {
+        self.searchedLocation = location
+        guard let url = baseURL else { fatalError("Error with unwrapping the baseURL") }
+        
+        let urlParameters = ["name": location, "$$app_token": token]
+        
+        NetworkController.performRequest(for: url, httpMethod: .Get, urlParameters: urlParameters, body: nil) { (data, error) in
+            
+            if let error = error { print("Error with fetching data from url with error: \(error.localizedDescription)"); completion([]); return }
+            
+            guard let data = data,
+                let responseStringData = String(data: data, encoding: .utf8) else { print("Error with converting data into a string"); completion([]); return }
+            
+            guard let array = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [[String: Any]] else { print("Error with serializing data \(responseStringData)"); completion([]); return }
+            
+            let crimeRates = array.flatMap({ CrimeRate(dictionary: $0) })
+            self.searchedCrimeRate = crimeRates
+            completion(crimeRates)
         }
     }
     
@@ -74,20 +97,35 @@ class CrimeRateController {
     // MARK: - Warning Percent
     //==============================================================
     func warningPercentAlgarythm() {
-        var percent = 0.0
-        var total = 0.0
-        let ratesAsString = crimeRates.flatMap({ $0.rate })
-        let rates = ratesAsString.flatMap({ Double($0) })
-        for rate in rates {
-            total += rate * 10000.0
+//        population = crimeRate / crimeCount
+//        dangerLVL = population / crimeCount
+        var violentCrime: CrimeRate?
+        for crimeRate in crimeRates {
+            if crimeRate.type == "Violent crime" {
+                violentCrime = crimeRate
+            }
         }
-        let final = total / 100
-        percent = round(final)
-        if percent > 0.0 && percent < 100.0 {
-            self.warningPercent = Int(percent)
-        } else {
-            self.warningPercent = 0
+        let rateStringOpt = violentCrime?.rate
+        guard let rateString = rateStringOpt else { return }
+        guard let rate = Double(rateString) else { return }
+        let doubleVal = rate * 1000
+        let percent = Int(doubleVal)
+        self.warningPercent = percent
+    }
+    
+    func searchedWarningPercent(crimeRates: [CrimeRate]) -> Int {
+        var violentCrime: CrimeRate?
+        for crimeRate in crimeRates {
+            if crimeRate.type == "Violent crime" {
+                violentCrime = crimeRate
+            }
         }
+        let rateStringOpt = violentCrime?.rate
+        guard let rateString = rateStringOpt else { return 0 }
+        guard let rate = Double(rateString) else { return 0 }
+        let doubleVal = rate * 1000
+        let percent = Int(doubleVal)
+        return percent
     }
     
     //==============================================================
@@ -155,7 +193,7 @@ class CrimeRateController {
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [matchingRecordIDPredicate, warningPercentPredicate])
         let subscription = CKQuerySubscription(recordType: "CrimeRate", predicate: compoundPredicate, options: .firesOnRecordUpdate)
         let notificationInfo = CKNotificationInfo()
-        notificationInfo.alertBody = "Your danger level is at: \(self.warningPercent)"
+        notificationInfo.alertBody = "Your danger level is at: \(CrimeRate.warningPercentKey)"
         subscription.notificationInfo = notificationInfo
         publicDB.save(subscription) { (subscription, error) in
             if let error = error {

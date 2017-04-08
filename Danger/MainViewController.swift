@@ -18,6 +18,11 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         updateViewOnButtonAndLabel()
         currentUser = UserController.shared.loggedInUser
         findLocation()
+        
+        var screenEdgeRecognizer: UISwipeGestureRecognizer
+        screenEdgeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(transitToSearchView))
+        screenEdgeRecognizer.direction = .down
+        view.addGestureRecognizer(screenEdgeRecognizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,6 +72,15 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     //==============================================================
     // MARK: - Helper Functions
     //==============================================================
+    func transitToSearchView() {
+        let searchView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SearchPageViewController")
+        let transition = CATransition()
+        transition.duration = 0.1
+        transition.subtype = kCATransitionFromTop
+        view.window!.layer.add(transition, forKey: kCATransition)
+        self.present(searchView, animated: false, completion: nil)
+    }
+    
     func updateViewOnButtonAndLabel() {
         let circleView = UIView()
         circleView.center = self.view.center
@@ -92,7 +106,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func regionMonitoring(lat: Double, long: Double) {
-        let currentRegion = CLCircularRegion(center: CLLocationCoordinate2DMake(lat, long), radius: 5000, identifier: "userLocation")
+        let currentRegion = CLCircularRegion(center: CLLocationCoordinate2DMake(lat, long), radius: 10000, identifier: "userLocation")
         locationManager.startMonitoring(for: currentRegion)
         print("Made Region")
     }
@@ -107,7 +121,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
                 let pm = placemarksArr[0] as CLPlacemark
                 guard let city = pm.locality, let state = pm.administrativeArea else { return }
                 self.cityLabel.text = "\(city), \(state)"
-                CrimeRateController.shared.curLocation = "\(city), \(state)"
                 guard let fullNameState = States.states[state] else { return }
                 self.checkAndAddState(state: fullNameState)
                 self.fetchCrimeData(city: city, state: fullNameState)
@@ -129,18 +142,17 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func fetchCrimeData(city: String, state: String) {
-        CrimeRateController.shared.fetchCrimeData(byCurrentLocation: "\(city), \(state)") { (error) in
-            if error != nil {
-                print("Error with fetching Crime Data")
+        CrimeRateController.shared.fetchCrimeData(byCurrentLocation: "\(city), \(state)") { (crimeRate) in
+            if crimeRate.count == 0 {
+                print("Nothing was fetched from the API")
             }
             DispatchQueue.main.async {
                 let percent = CrimeRateController.shared.warningPercent
                 if percent != 0 {
                     self.percentLabel.text = "\(percent)%"
                 } else {
-                    self.percentLabel.text = "NO CRIME"
+                    self.percentLabel.text = "\(1)%"
                 }
-                
             }
         }
     }

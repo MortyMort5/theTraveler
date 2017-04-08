@@ -14,8 +14,9 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         self.tableView.rowHeight = 25.0
         self.fetchAllUsers()
-        var screenEdgeRecognizer: UIPanGestureRecognizer
-        screenEdgeRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeToGoBack))
+        var screenEdgeRecognizer: UISwipeGestureRecognizer
+        screenEdgeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeToGoBack))
+        screenEdgeRecognizer.direction = .down
         view.addGestureRecognizer(screenEdgeRecognizer)
     }
     
@@ -60,18 +61,7 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
     }
-    
-    //==============================================================
-    // MARK: - Alert Functions
-    //==============================================================
-    func travelerInfoAlert() {
-        let alertController = UIAlertController(title: "TRAVELERS:", message: "Is a list of all the users with this app and how many states they have currently traveled to this month. The winner will get a prize at the end of each month. Go out and travel and see the world.", preferredStyle: .actionSheet)
-        let travelAction = UIAlertAction(title: "TRAVEL", style: .cancel, handler: nil)
-        alertController.addAction(travelAction)
-        present(alertController, animated: true, completion: nil)
-    }
 
-    
     //==============================================================
     // MARK: - DataSource
     //==============================================================
@@ -100,9 +90,20 @@ class TravelLogViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             cell.backgroundColor = UIColor.clear
         }
-                let user = users[indexPath.row]
-                cell.textLabel?.text = user.username
-                cell.detailTextLabel?.text = "\(user.states.count)"
+        let user = users[indexPath.row]
+        cell.textLabel?.text = user.username
+        cell.detailTextLabel?.text = "\(user.states.count)"
         return cell
+    }
+    
+    
+    //==============================================================
+    // MARK: - Alert Functions
+    //==============================================================
+    func travelerInfoAlert() {
+        let alertController = UIAlertController(title: "TRAVELERS:", message: "Is a list of all the users with this app and how many states they have currently traveled to this month. The winner will get a prize at the end of each month. Go out and travel and see the world.", preferredStyle: .actionSheet)
+        let travelAction = UIAlertAction(title: "TRAVEL", style: .cancel, handler: nil)
+        alertController.addAction(travelAction)
+        present(alertController, animated: true, completion: nil)
     }
 }

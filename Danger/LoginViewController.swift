@@ -8,11 +8,13 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViewOnButtons()
+        self.usernameTextField.delegate = self
+        self.emailTextField.delegate = self
     }
     
     //==============================================================
@@ -52,6 +54,14 @@ class LoginViewController: UIViewController {
                 self.loadingIndicator.stopAnimating()
             }
         }
+    }
+    
+    //==============================================================
+    // MARK: - UIText Field Functions
+    //==============================================================
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     //==============================================================
